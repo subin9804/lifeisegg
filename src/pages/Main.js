@@ -6,12 +6,19 @@ import { styled } from "styled-components";
 
 const Wrap = styled.div`
   position: relative;
+  width: 70%;
+
 `;
 
-const TopDate = styled.h1`
-  margin: 10px 0;
+const TopName = styled.div`
+  margin: 50px 0 10px;
   font-family: "Mapo";
   font-weight: 600;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  span{font-size: 20px;}
 `;
 const Music = styled.div`
   width: 24px;
@@ -42,21 +49,28 @@ const WeddingMainImg = styled.img`
 `;
 
 const MainText = styled.div`
-  p:first-child {
-    display: inline-block;
-    margin: 6px;
+  p.title {
+    text-align: left;
+    display: block;
+    margin-top: 12px;
     font-size: 24px;
     font-weight: 600;
     color: #222;
   }
-  p:last-child {
-    display: inline-block;
-    margin-top: 12px;
+  p:not(.title) {
+  text-align: left;
+    display: block;
     font-size: 16px;
     line-height: 25px;
     font-weight: 600;
   }
 `;
+
+const PinkBlock = styled.div`
+  background-color: #f8e2e2ff;
+  margin: 5px 0;
+  padding: 5px 10px 10px;
+`
 
 const Main = ({ Subtitle }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -82,15 +96,18 @@ const Main = ({ Subtitle }) => {
   return (
     <Wrap>
       <Music onClick={playMusic}>{volume}</Music>
-      <TopDate>2025.10.26</TopDate>
-      <Subtitle>sunday</Subtitle>
-      <WeddingMainImg src="./img/JO__8380.jpg" alt="wedding-img" />
+      <TopName><h1>이민혁 <br/><span>그리고</span><br/> 이수빈</h1>
+              <img style={{width: 'auto', height: '200'}} src="./img/JO__8380.jpg" /></TopName>
+      <Subtitle>결혼합니다.</Subtitle>
+    
+      {/* <WeddingMainImg src="./img/JO__8380.jpg" alt="wedding-img" /> */}
       <MainText>
-        <p>이민혁 · 이수빈</p>
-        <p>
-          2025년 10월 26일 일요일 오후 12시 00분 <br /> 부천 상동 세이브존 9층,
-          <br /> 라비에벨 웨딩홀
-        </p>
+        <p className="title">- 일시 </p>
+        <p style={{paddingLeft: '20px'}}>2025년 10월 26일 일요일<br /> 오후 12시</p>
+        
+        <p className="title">- 장소</p>
+        <p style={{paddingLeft: '20px'}}>부천 상동 세이브존 9층
+          <br /> 라비에벨 웨딩홀</p>
       </MainText>
     </Wrap>
   );

@@ -23,14 +23,15 @@ const Container = styled.div`
   padding-top: 20px;
 `;
 
-const Subtitle = styled.div`
-  font-size: 13px;
+const Subtitle = styled.h1`
+  
   font-family: "Mapo";
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
   color: rgba(248, 164, 164, 0.7);
   margin-bottom: 28px;
+  text-align: left;
 `;
 const SubtitleKR = styled.h2`
   font-family: "Mapo";
@@ -49,10 +50,6 @@ const DateInfo = styled.div`
 `;
 
 const Navigation = styled.div`
-  position: sticky;
-  top: 0;
-  left: 0;
-
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -70,6 +67,11 @@ const Navigation = styled.div`
   span {
     padding: 0 5px;
   }
+  
+  span:last-child {
+    line-height: 1;
+    padding-top: 7px;
+  }
 
   span:hover {
     cursor: pointer;
@@ -86,18 +88,26 @@ function App() {
   const photoBookRef = useRef(null);
   const informationRef = useRef(null);
 
-  const scrollToRef = (ref) => {
-    ref.current.scrollIntoView({ behavior: "smooth" });
-  };
+  // const scrollToRef = (ref) => {
+  //   ref.current.scrollIntoView({ behavior: "smooth" });
+  // };
+
+  const turnToRef = (ref) => {
+    if(ref.current.style.display == "none") {
+      ref.current.style.display = "block"
+    } else {
+      ref.current.style.display = "none"
+    }
+  }
 
   return (
     <Container>
       <Main Subtitle={Subtitle} id="Main"></Main>
       <Navigation>
-        <span onClick={() => scrollToRef(calendarRef)}>예식일시</span>
-        <span onClick={() => scrollToRef(howToGoRef)}>오시는길</span>
-        <span onClick={() => scrollToRef(photoBookRef)}>사진첩</span>
-        <span onClick={() => scrollToRef(informationRef)}>마음전하기</span>
+        <span onClick={() => turnToRef(calendarRef)}>오시는길</span>
+        <span onClick={() => turnToRef(howToGoRef)}>사진첩</span>
+        <span onClick={() => turnToRef(photoBookRef)}>마음전하기</span>
+        <span onClick={() => turnToRef(informationRef)}>사진<br/>전달하기</span>
       </Navigation>
       <div ref={calendarRef}>
         <Date Subtitle={Subtitle} SubtitleKR={SubtitleKR} DateInfo={DateInfo} />
