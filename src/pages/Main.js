@@ -4,6 +4,11 @@ import { FaVolumeMute } from "react-icons/fa";
 import music from "../mp3/SellBuyMusic.mp3";
 import { styled } from "styled-components";
 
+const MainCon = styled.div`
+  width: 100%;
+
+`;
+
 const Wrap = styled.div`
   position: relative;
   width: 70%;
@@ -41,11 +46,9 @@ const Music = styled.div`
 `;
 
 const WeddingMainImg = styled.img`
-  width: auto;
-  min-width: 300px;
-  height: calc(100vh - 300px);
-  margin: 20px auto;
-  border-radius: 180px;
+  width: 100%;
+  height: 200;
+  object-fit:cover;
 `;
 
 const MainText = styled.div`
@@ -94,22 +97,24 @@ const Main = ({ Subtitle }) => {
   };
 
   return (
-    <Wrap>
-      <Music onClick={playMusic}>{volume}</Music>
-      <TopName><h1>이민혁 <br/><span>그리고</span><br/> 이수빈</h1>
-              <img style={{width: 'auto', height: '200'}} src="./img/JO__8380.jpg" /></TopName>
-      <Subtitle>결혼합니다.</Subtitle>
-    
-      {/* <WeddingMainImg src="./img/JO__8380.jpg" alt="wedding-img" /> */}
-      <MainText>
-        <p className="title">- 일시 </p>
-        <p style={{paddingLeft: '20px'}}>2025년 10월 26일 일요일<br /> 오후 12시</p>
-        
-        <p className="title">- 장소</p>
-        <p style={{paddingLeft: '20px'}}>부천 상동 세이브존 9층
-          <br /> 라비에벨 웨딩홀</p>
-      </MainText>
-    </Wrap>
+    <MainCon>
+      {/*<Music onClick={playMusic}>{volume}</Music> */}
+      <WeddingMainImg src="./img/JO__8380.jpg"></WeddingMainImg>
+      <Wrap>
+        <TopName><h1>이민혁 <br/><span>그리고</span><br/> 이수빈</h1>
+        <Subtitle>결혼합니다.</Subtitle></TopName>
+      
+        {/* <WeddingMainImg src="./img/JO__8380.jpg" alt="wedding-img" /> */}
+        <MainText>
+          <p className="title">- 일시 </p>
+          <p style={{paddingLeft: '20px'}}>2025년 10월 26일 일요일<br /> 오후 12시</p>
+          
+          <p className="title">- 장소</p>
+          <p style={{paddingLeft: '20px'}}>부천 상동 세이브존 9층
+            <br /> 라비에벨 웨딩홀</p>
+        </MainText>
+      </Wrap>
+    </MainCon>
   );
 };
 
