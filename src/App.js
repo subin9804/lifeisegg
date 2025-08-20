@@ -5,24 +5,102 @@ import Date from "./pages/Date";
 import HowToGo from "./pages/HowToGo";
 import PhotoBook from "./pages/PhotoBook";
 import Information from "./pages/Information";
-import styled from "styled-components";
+import UploadPhotobutton from "./pages/UploadPhotobutton";
+import styled, { css } from "styled-components";
 import BottomPage from "./pages/BottomPage";
 
+import { useState } from "react";
+import { MapPin, MessageSquare, Images, Upload } from "lucide-react";
+
 const Container = styled.div`
+  height: 100vh;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+
+  flex-direction: column;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+`;
+
+const Hero = styled.div`
+  position: relative;
+  height: 50vh;
+  background-image: url('./img/wedding08.jpg');
+  background-size: cover;
+  background-position: center;
+`;
+
+const Gradient = styled.div`
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.2), rgba(255, 255, 255, 1));
+`;
+
+const HeroText = styled.div`
+  position: absolute;
+  bottom: 10rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
+
+const InfoWrapper = styled.div`
+  height: 20vh;
+  align-items: center;
+  position: absolute;
+  transform: translateX(50%);
+  top: 10em;
+`;
+
+const InfoCard = styled.div`
+  
+  border-radius: 1rem;
+  padding: 1rem;
   text-align: center;
   width: 100%;
-  height: auto;
-  max-width: 420px;
-  min-width: 320px;
-  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+  p:first-child {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #333;
+  }
+  p:last-child {
+    font-size: 1rem;
+    margin-top: 0.25rem;
+    color: #666;
+  }
+`;
+
+const TabBar = styled.div`
+  height: 10vh;
+  display: flex;
+  border-top: 1px solid #e5e5e5;
+`;
+
+const TabButton = styled.button`
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: start;
-  position: relative;
-  padding-top: 20px;
-`;
+  justify-content: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: #777;
+  transition: color 0.2s;
 
+  ${(props) =>
+    props.active &&
+    css`
+      color: #e91e63;
+    `}
+`;
 const Subtitle = styled.h1`
   
   font-family: "Mapo";
@@ -48,90 +126,62 @@ const DateInfo = styled.div`
     margin: 28px 0;
   }
 `;
-
-const Navigation = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  height: 50px;
-  padding: 0 24px;
-  line-height: 48px;
-  background: #f8f8f8;
-  border-bottom: 1px solid rgb(248, 164, 164);
-  margin: 30px 0;
-  font-family: "Mapo";
-  font-weight: 600;
-  color: #555;
-  z-index: 100;
-
-  span {
-    padding: 0 5px;
-  }
-  
-  span:last-child {
-    line-height: 1;
-    padding-top: 7px;
-  }
-
-  span:hover {
-    cursor: pointer;
-    background-color: #f8a4a4;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 100, 100, 0.4) 0%, rgba(255, 100, 100, 0) 70%);
-    text-align: center;
-  }
+const TabContent = styled.div`
+  flex: 1;
+  background: #f9f9f9;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.95rem;
 `;
 
-function App() {
-  const calendarRef = useRef(null);
-  const howToGoRef = useRef(null);
-  const photoBookRef = useRef(null);
-  const informationRef = useRef(null);
+export default function App() {
+  const [activeTab, setActiveTab] = useState("map");
 
-  // const scrollToRef = (ref) => {
-  //   ref.current.scrollIntoView({ behavior: "smooth" });
-  // };
-
-  const turnToRef = (ref) => {
-    if(ref.current.style.display == "none") {
-      ref.current.style.display = "block"
-    } else {
-      ref.current.style.display = "none"
-    }
-  }
+  const tabs = [
+    { key: "map", label: "오시는길", icon: <MapPin size={20} /> },
+    { key: "message", label: "모시는글", icon: <MessageSquare size={20} /> },
+    { key: "gallery", label: "사진첩", icon: <Images size={20} /> },
+    { key: "upload", label: "사진올리기", icon: <Upload size={20} /> },
+  ];
 
   return (
     <Container>
-      <Main Subtitle={Subtitle} id="Main"></Main>
-      <Navigation>
-        <span onClick={() => turnToRef(calendarRef)}>오시는길</span>
-        <span onClick={() => turnToRef(howToGoRef)}>사진첩</span>
-        <span onClick={() => turnToRef(photoBookRef)}>마음전하기</span>
-        <span onClick={() => turnToRef(informationRef)}>사진<br/>전달하기</span>
-      </Navigation>
-      <div ref={calendarRef}>
-        <Date Subtitle={Subtitle} SubtitleKR={SubtitleKR} DateInfo={DateInfo} />
-      </div>
-      <div ref={howToGoRef}>
-        <HowToGo
-          Subtitle={Subtitle}
-          SubtitleKR={SubtitleKR}
-          DateInfo={DateInfo}
-        />
-      </div>
-      <div ref={photoBookRef}>
-        <PhotoBook Subtitle={Subtitle} SubtitleKR={SubtitleKR} />
-      </div>
-      <div ref={informationRef}>
-        <Information
-          Subtitle={Subtitle}
-          SubtitleKR={SubtitleKR}
-          DateInfo={DateInfo}
-        />
-      </div>
-      <BottomPage />
+      <Hero>
+        <Gradient />
+        <HeroText>이민혁 ❤ 이신부</HeroText>
+      </Hero>
+
+      <InfoWrapper>
+        <InfoCard>
+          <p>2025. 10. 05 (일) 오후 1시</p>
+          <p>서울 ○○호텔 3층 ○○홀</p>
+        </InfoCard>
+      </InfoWrapper>
+      
+      <TabBar>
+        {tabs.map((tab) => (
+          <TabButton
+            key={tab.key}
+            onClick={() => setActiveTab(tab.key)}
+            active={activeTab === tab.key}
+          >
+            {tab.icon}
+            <span>{tab.label}</span>
+          </TabButton>
+        ))}
+      </TabBar>
+
+      <TabContent>
+        {activeTab === "map" && 
+          <HowToGo
+            Subtitle={Subtitle}
+            SubtitleKR={SubtitleKR}
+            DateInfo={DateInfo}
+          />}
+        {activeTab === "gallery" && <PhotoBook Subtitle={Subtitle} SubtitleKR={SubtitleKR}/>}
+        {activeTab === "message" && <p>마음전하기 댓글창💕</p>}
+        {activeTab === "upload" && <UploadPhotobutton />}
+      </TabContent>
     </Container>
   );
 }
-
-export default App;

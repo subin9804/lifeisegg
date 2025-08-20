@@ -98,8 +98,14 @@ const Main = ({ Subtitle }) => {
 
   return (
     <MainCon>
+    <style>
+       
+    </style>
+
       {/*<Music onClick={playMusic}>{volume}</Music> */}
       <WeddingMainImg src="./img/JO__8380.jpg"></WeddingMainImg>
+      <div class="overlay"></div>
+
       <Wrap>
         <TopName><h1>이민혁 <br/><span>그리고</span><br/> 이수빈</h1>
         <Subtitle>결혼합니다.</Subtitle></TopName>
