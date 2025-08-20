@@ -27,8 +27,8 @@ const Container = styled.div`
 
 const Hero = styled.div`
   position: relative;
-  height: 50vh;
-  background-image: url('./img/wedding08.jpg');
+  height: 40vh;
+  background-image: url('./img/JO__8380.jpg');
   background-size: cover;
   background-position: center;
 `;
@@ -36,45 +36,40 @@ const Hero = styled.div`
 const Gradient = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.2), rgba(255, 255, 255, 1));
+  background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.2), rgba(0,0,0,0.1), rgba(255, 255, 255, 1));
 `;
 
 const HeroText = styled.div`
-  position: absolute;
-  bottom: 10rem;
-  left: 50%;
-  transform: translateX(-50%);
   text-align: center;
   color: white;
   font-size: 1.5rem;
   font-weight: bold;
+
+  .heart {color:pink;}
 `;
 
 const InfoWrapper = styled.div`
-  height: 20vh;
   align-items: center;
   position: absolute;
   transform: translateX(50%);
-  top: 10em;
+  top: 10.5rem;
 `;
 
 const InfoCard = styled.div`
   
-  border-radius: 1rem;
-  padding: 1rem;
   text-align: center;
   width: 100%;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-
+  font-weight: 900;
+  
   p:first-child {
     font-size: 1.125rem;
-    font-weight: 600;
-    color: #333;
+    font-weight: 00;
+    color: #111;
   }
   p:last-child {
     font-size: 1rem;
     margin-top: 0.25rem;
-    color: #666;
+    color: #111;
   }
 `;
 
@@ -93,7 +88,9 @@ const TabButton = styled.button`
   gap: 0.25rem;
   font-size: 0.75rem;
   color: #777;
+  background-color: transparent;
   transition: color 0.2s;
+  border: 0;
 
   ${(props) =>
     props.active &&
@@ -148,11 +145,11 @@ export default function App() {
     <Container>
       <Hero>
         <Gradient />
-        <HeroText>이민혁 ❤ 이신부</HeroText>
       </Hero>
 
       <InfoWrapper>
         <InfoCard>
+          <HeroText>이민혁 <span class="heart">❤</span> 이수빈</HeroText>
           <p>2025. 10. 05 (일) 오후 1시</p>
           <p>서울 ○○호텔 3층 ○○홀</p>
         </InfoCard>
