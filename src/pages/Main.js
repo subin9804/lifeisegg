@@ -6,74 +6,57 @@ import { styled } from "styled-components";
 
 const MainCon = styled.div`
   width: 100%;
-
-`;
-
-const Wrap = styled.div`
   position: relative;
-  width: 70%;
-
 `;
 
-const TopName = styled.div`
-  margin: 50px 0 10px;
-  font-family: "Mapo";
-  font-weight: 600;
-  text-align: left;
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  span{font-size: 20px;}
+const Hero = styled.div`
+  position: relative;
+  height: 40vh;
+  background-image: url('./img/wedding04.jpg');
+  background-size: cover;
+  background-position: center;
 `;
-const Music = styled.div`
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
+
+const Gradient = styled.div`
   position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 150;
-  animation: volume alternate 2s infinite;
-
-  @keyframes volume {
-    0% {
-      transform: scale(0.8);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 1));
 `;
 
-const WeddingMainImg = styled.img`
+const HeroText = styled.div`
+  text-align: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+
+  .heart {color:pink;}
+`;
+
+const InfoWrapper = styled.div`
+  align-items: center;
+  position: absolute;
+  right: 50%;
+  transform: translateX(50%);
+  top: 50%;
+`;
+
+const InfoCard = styled.div`
+  text-align: center;
   width: 100%;
-  height: 200;
-  object-fit:cover;
-`;
+  font-weight: 900;
+  white-space: nowrap;
 
-const MainText = styled.div`
-  p.title {
-    text-align: left;
-    display: block;
-    margin-top: 12px;
-    font-size: 24px;
-    font-weight: 600;
-    color: #222;
+  p:first-child {
+    font-size: 1.125rem;
+    font-weight: 00;
+    color: #111;
   }
-  p:not(.title) {
-  text-align: left;
-    display: block;
-    font-size: 16px;
-    line-height: 25px;
-    font-weight: 600;
+  p:last-child {
+    font-size: 1rem;
+    margin-top: 0.25rem;
+    color: #111;
   }
 `;
-
-const PinkBlock = styled.div`
-  background-color: #f8e2e2ff;
-  margin: 5px 0;
-  padding: 5px 10px 10px;
-`
 
 const Main = ({ Subtitle }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -98,28 +81,17 @@ const Main = ({ Subtitle }) => {
 
   return (
     <MainCon>
-    <style>
-       
-    </style>
+      <Hero>
+        <Gradient />
+      </Hero>
 
-      {/*<Music onClick={playMusic}>{volume}</Music> */}
-      <WeddingMainImg src="./img/JO__8380.jpg"></WeddingMainImg>
-      <div class="overlay"></div>
-
-      <Wrap>
-        <TopName><h1>이민혁 <br/><span>그리고</span><br/> 이수빈</h1>
-        <Subtitle>결혼합니다.</Subtitle></TopName>
-      
-        {/* <WeddingMainImg src="./img/JO__8380.jpg" alt="wedding-img" /> */}
-        <MainText>
-          <p className="title">- 일시 </p>
-          <p style={{paddingLeft: '20px'}}>2025년 10월 26일 일요일<br /> 오후 12시</p>
-          
-          <p className="title">- 장소</p>
-          <p style={{paddingLeft: '20px'}}>부천 상동 세이브존 9층
-            <br /> 라비에벨 웨딩홀</p>
-        </MainText>
-      </Wrap>
+      <InfoWrapper>
+        <InfoCard>
+          <HeroText>이민혁 <span class="heart">❤</span> 이수빈</HeroText>
+          <p>2025. 10. 26 (일) 오후 12시</p>
+          <p>부천 상동 세이브존 9층<br/> 라비에벨 오페라홀</p>
+        </InfoCard>
+      </InfoWrapper>
     </MainCon>
   );
 };

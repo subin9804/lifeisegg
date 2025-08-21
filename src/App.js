@@ -5,7 +5,7 @@ import Date from "./pages/Date";
 import HowToGo from "./pages/HowToGo";
 import PhotoBook from "./pages/PhotoBook";
 import Information from "./pages/Information";
-import UploadPhotobutton from "./pages/UploadPhotobutton";
+import UploadPhoto from "./pages/UploadPhoto";
 import styled, { css } from "styled-components";
 import BottomPage from "./pages/BottomPage";
 
@@ -25,53 +25,6 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
-const Hero = styled.div`
-  position: relative;
-  height: 40vh;
-  background-image: url('./img/JO__8380.jpg');
-  background-size: cover;
-  background-position: center;
-`;
-
-const Gradient = styled.div`
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.2), rgba(0,0,0,0.1), rgba(255, 255, 255, 1));
-`;
-
-const HeroText = styled.div`
-  text-align: center;
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-
-  .heart {color:pink;}
-`;
-
-const InfoWrapper = styled.div`
-  align-items: center;
-  position: absolute;
-  transform: translateX(50%);
-  top: 10.5rem;
-`;
-
-const InfoCard = styled.div`
-  
-  text-align: center;
-  width: 100%;
-  font-weight: 900;
-  
-  p:first-child {
-    font-size: 1.125rem;
-    font-weight: 00;
-    color: #111;
-  }
-  p:last-child {
-    font-size: 1rem;
-    margin-top: 0.25rem;
-    color: #111;
-  }
-`;
 
 const TabBar = styled.div`
   height: 10vh;
@@ -143,18 +96,7 @@ export default function App() {
 
   return (
     <Container>
-      <Hero>
-        <Gradient />
-      </Hero>
-
-      <InfoWrapper>
-        <InfoCard>
-          <HeroText>이민혁 <span class="heart">❤</span> 이수빈</HeroText>
-          <p>2025. 10. 05 (일) 오후 1시</p>
-          <p>서울 ○○호텔 3층 ○○홀</p>
-        </InfoCard>
-      </InfoWrapper>
-      
+      <Main />
       <TabBar>
         {tabs.map((tab) => (
           <TabButton
@@ -177,7 +119,7 @@ export default function App() {
           />}
         {activeTab === "gallery" && <PhotoBook Subtitle={Subtitle} SubtitleKR={SubtitleKR}/>}
         {activeTab === "message" && <p>마음전하기 댓글창💕</p>}
-        {activeTab === "upload" && <UploadPhotobutton />}
+        {activeTab === "upload" && <UploadPhoto />}
       </TabContent>
     </Container>
   );
