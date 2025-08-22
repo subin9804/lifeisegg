@@ -2,6 +2,13 @@ import app from "../firebase.js"
 import advancedImage from "../cloudinary";
 
 
+import React from 'react'
+import { Cloudinary } from '@cloudinary/url-gen';
+import { auto } from '@cloudinary/url-gen/actions/resize';
+import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
+import { AdvancedImage } from '@cloudinary/react';
+
+
 function UploadPhoto() {
   const [message, setMessage] = useState('');
   const [image, setImage] = useState([]);
