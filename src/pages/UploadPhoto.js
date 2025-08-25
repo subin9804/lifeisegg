@@ -14,6 +14,13 @@ function UploadPhoto() {
   const [previewUrls, setPreviewUrls] = useState([]);
   const [uploading, setUploading] = useState(false);
 
+
+  // Cloudinary 설정
+  const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
+  //const UPLOAD_PRESET = process.env.REACT_APP_CLOUD_KEY;
+  const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+
+
   // 이미지 선택
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -27,9 +34,22 @@ function UploadPhoto() {
 
 
   // 저장 버튼 클릭
-  //const handleSave = async () => {
+  const handleSave = async () => {
+    if (!message.trim() || files.length === 0) return;
     
-  //}
+    setUploading(true);
+
+    // try {
+    //   // 1. Cloudinary 업로드
+    //   const fileNames = [];
+    //   for (const file of files) {
+    //     const formData = new FormData();
+    //     formData.append("file", file);
+    //     formData.append("upload_preset", UPLOAD_PRESET)
+    //   }
+    // }
+    
+  }
 
 }
 
