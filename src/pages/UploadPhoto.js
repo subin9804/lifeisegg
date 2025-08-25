@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { db } from "./firebase.js"; // firebase config
 import { collection, addDoc } from "firebase/firestore";
 
+import axios from "axios";
+
 function UploadPhoto() {
   const [message, setMessage] = useState('');
   const [image, setImage] = useState([]);
@@ -52,7 +54,11 @@ function UploadPhoto() {
       }
 
       // 2. Firestore에 메시지 + 파일명 저장
-      await addDoc(collection(db, "posts"))
+      await addDoc(collection(db, "posts"), {
+        message,
+        files: fileNames,
+        createdAt: new Date(),
+      })
     }
     
   }
