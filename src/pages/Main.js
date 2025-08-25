@@ -11,7 +11,7 @@ const MainCon = styled.div`
 
 const Hero = styled.div`
   position: relative;
-  height: 40vh;
+  height: 30vh;
   background-image: url('./img/wedding04.jpg');
   background-size: cover;
   background-position: center;
@@ -37,7 +37,7 @@ const InfoWrapper = styled.div`
   position: absolute;
   right: 50%;
   transform: translateX(50%);
-  top: 50%;
+  top: 40%;
 `;
 
 const InfoCard = styled.div`

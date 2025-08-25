@@ -119,7 +119,7 @@ export default function App() {
           />}
         {activeTab === "gallery" && <PhotoBook Subtitle={Subtitle} SubtitleKR={SubtitleKR}/>}
         {activeTab === "message" && <p>마음전하기 댓글창💕</p>}
-        {activeTab === "upload" && <UploadPhoto />}
+        {/*activeTab === "upload" && <UploadPhoto />*/}
       </TabContent>
     </Container>
   );

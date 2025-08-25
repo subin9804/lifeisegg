@@ -1,12 +1,11 @@
+import React, {useState} from 'react'
+
 import app from "../firebase.js"
-import advancedImage from "../cloudinary";
-
-
-import React from 'react'
-import { Cloudinary } from '@cloudinary/url-gen';
-import { auto } from '@cloudinary/url-gen/actions/resize';
-import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
-import { AdvancedImage } from '@cloudinary/react';
+//import advancedImage from "../cloudinary";
+//import { Cloudinary } from '@cloudinary/url-gen';
+//import { auto } from '@cloudinary/url-gen/actions/resize';
+//import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
+//import { AdvancedImage } from '@cloudinary/react';
 
 
 function UploadPhoto() {
@@ -28,9 +27,9 @@ function UploadPhoto() {
 
 
   // 저장 버튼 클릭
-  const handleSave = async () => {
+  //const handleSave = async () => {
     
-  }
+  //}
 
 }
 
