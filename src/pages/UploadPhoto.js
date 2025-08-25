@@ -1,12 +1,7 @@
 import React, {useState} from 'react'
-
-import app from "../firebase.js"
-//import advancedImage from "../cloudinary";
-//import { Cloudinary } from '@cloudinary/url-gen';
-//import { auto } from '@cloudinary/url-gen/actions/resize';
-//import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
-//import { AdvancedImage } from '@cloudinary/react';
-
+import styled from "styled-components";
+import { db } from "./firebase.js"; // firebase config
+import { collection, addDoc } from "firebase/firestore";
 
 function UploadPhoto() {
   const [message, setMessage] = useState('');
@@ -17,7 +12,7 @@ function UploadPhoto() {
 
   // Cloudinary 설정
   const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
-  //const UPLOAD_PRESET = process.env.REACT_APP_CLOUD_KEY;
+  const UPLOAD_PRESET = process.env.REACT_APP_UPLOAD_PRESET;
   const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
 
 
@@ -39,15 +34,26 @@ function UploadPhoto() {
     
     setUploading(true);
 
-    // try {
-    //   // 1. Cloudinary 업로드
-    //   const fileNames = [];
-    //   for (const file of files) {
-    //     const formData = new FormData();
-    //     formData.append("file", file);
-    //     formData.append("upload_preset", UPLOAD_PRESET)
-    //   }
-    // }
+    try {
+      // 1. Cloudinary 업로드
+      const fileNames = [];
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", UPLOAD_PRESET);
+
+        const res = await axios.post(UPLOAD_URL, formData, {
+          headers: {"Content-Type" : "multipart/form-data"},
+        });
+
+        // cloudinary 업로드 결과
+        const uploadFileName = res.data.public_id;
+        fileNames.push(uploadFileName);
+      }
+
+      // 2. Firestore에 메시지 + 파일명 저장
+      await addDoc(collection(db, "posts"))
+    }
     
   }
 
