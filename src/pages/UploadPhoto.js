@@ -1,13 +1,63 @@
 import React, {useState} from 'react'
 import styled from "styled-components";
-import { db } from "./firebase.js"; // firebase config
+import { db } from "../firebase.js"; // firebase config
 import { collection, addDoc } from "firebase/firestore";
 
 import axios from "axios";
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  max-width: 480px;
+  margin: auto;
+`;
+
+const Input = styled.input`
+  margin-bottom: 12px;
+  padding: 8px;
+  font-size: 16px;
+`;
+
+const FileInput = styled.input`
+  margin-bottom: 12px;
+`;
+
+const PreviewWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+`;
+
+const PreviewImage = styled.img`
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+`;
+
+const SaveButton = styled.button`
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+  }
+`;
+
+
+
 function UploadPhoto() {
   const [message, setMessage] = useState('');
-  const [image, setImage] = useState([]);
+  const [files, setFiles] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
   const [uploading, setUploading] = useState(false);
 
@@ -21,8 +71,8 @@ function UploadPhoto() {
   // 이미지 선택
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    const imageFiles = files.filter(file => file.type.startWith('image/'));
-    setImage(imageFiles);
+    const imageFiles = files.filter(file => file.type.startsWith('image/'));
+    setFiles(imageFiles);
 
     // 미리보기
     const urls = imageFiles.map(file => URL.createObjectURL(file));
@@ -32,8 +82,11 @@ function UploadPhoto() {
 
   // 저장 버튼 클릭
   const handleSave = async () => {
-    if (!message.trim() || files.length === 0) return;
-    
+    if (!message.trim() || files.length === 0) {
+      alert('선택된 이미지가 없습니당')
+      return;
+    }
+
     setUploading(true);
 
     try {
@@ -58,11 +111,48 @@ function UploadPhoto() {
         message,
         files: fileNames,
         createdAt: new Date(),
-      })
+      });
+
+      alert("저장 완료!");
+      setMessage("");
+      setFiles([]);
+      setPreviewUrls([]);
+    
+    } catch (err) {
+      console.error(err);
+      alert("오류가 발생했습니다\n죄송하지만 카톡으로 보내주심 안댈까용,,ㅜㅜ")
+    }finally {
+      setUploading(false);
     }
     
-  }
+  };
 
+
+  return (
+
+    <Container>
+      <Input
+        type="text"
+        placeholder="짧은 메세지를 입력하세요"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+      <FileInput
+        type="file"
+        accept="image/*"
+        multiple
+        onChange={handleImageChange}
+      />
+      <PreviewWrapper>
+        {previewUrls.map((src, idx) => (
+          <PreviewImage key={idx} src={src} alt={`preview-${idx}`} />
+        ))}
+      </PreviewWrapper>
+      <SaveButton onClick={handleSave} disabled={uploading}>
+        {uploading ? "저장 중..." : "저장"}
+      </SaveButton>
+    </Container>
+  );
 }
 
 
