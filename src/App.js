@@ -13,15 +13,15 @@ import { useState } from "react";
 import { MapPin, MessageSquare, Images, Upload } from "lucide-react";
 
 const Container = styled.div`
-  height: 100vh;
+  /*height: 100vh;*/
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
 
   flex-direction: column;
   background: white;
-  border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  /*border-radius: 1rem;*/
+  /*box-shadow: 0 4px 12px rgba(0,0,0,0.1);*/
   overflow: hidden;
 `;
 
@@ -51,21 +51,21 @@ const TabButton = styled.button`
       color: #e91e63;
     `}
 `;
-const Subtitle = styled.h1`
-  
-  font-family: "Mapo";
-  font-weight: bold;
+const Subtitle = styled.h2`
+  font-family: "Gowun Batang", serif;
+  font-weight: 700;
+  font-style: normal;
+
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: rgba(248, 164, 164, 0.7);
-  margin-bottom: 28px;
+  color: rgba(248, 164, 164, 0.6);
+  margin-bottom: 10px;
   text-align: left;
 `;
-const SubtitleKR = styled.h2`
-  font-family: "Mapo";
-  font-size: 1.2rem;
-  color: #f8a4a4;
-  margin: 10px;
+const SubtitleKR = styled.h4`
+  color: #535353ff;
+  font-weight: 700;
+  margin-bottom: 20px;
 `;
 const DateInfo = styled.div`
   width: 90%;

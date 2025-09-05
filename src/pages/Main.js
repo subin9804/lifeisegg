@@ -12,7 +12,7 @@ const MainCon = styled.div`
 const Hero = styled.div`
   position: relative;
   height: 30vh;
-  background-image: url('./img/wedding04.jpg');
+  background-image: url('./img/main_back.png');
   background-size: cover;
   background-position: center;
 `;
@@ -25,11 +25,14 @@ const Gradient = styled.div`
 
 const HeroText = styled.div`
   text-align: center;
-  color: white;
+  color: #0000008c;
   font-size: 1.5rem;
   font-weight: bold;
+  margin-bottom: 20px;
 
-  .heart {color:pink;}
+  .heart {
+    color:#fc5757ff;
+  }
 `;
 
 const InfoWrapper = styled.div`
@@ -37,7 +40,7 @@ const InfoWrapper = styled.div`
   position: absolute;
   right: 50%;
   transform: translateX(50%);
-  top: 40%;
+  top: 6vh;
 `;
 
 const InfoCard = styled.div`
@@ -87,9 +90,11 @@ const Main = ({ Subtitle }) => {
 
       <InfoWrapper>
         <InfoCard>
-          <HeroText>이민혁 <span class="heart">❤</span> 이수빈</HeroText>
+          <HeroText>이민혁 <span className="heart">❤</span> 이수빈</HeroText>
+        
           <p>2025. 10. 26 (일) 오후 12시</p>
-          <p>부천 상동 세이브존 9층<br/> 라비에벨 오페라홀</p>
+        
+          <p>부천 상동 세이브존 9층<br/>라비에벨 오페라홀</p>
         </InfoCard>
       </InfoWrapper>
     </MainCon>

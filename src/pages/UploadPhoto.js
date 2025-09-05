@@ -149,7 +149,7 @@ function UploadPhoto() {
         ref={inputRef}
         accept="image/*"
         multiple
-        onChange={handleSave}
+        onChange={handleImagelChange}
       />
       <PreviewWrapper>
         {previewUrls.map((src, idx) => (
