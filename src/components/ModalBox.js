@@ -74,18 +74,18 @@ const ModalBox = ({ onClose }) => {
           </InnerTitle>
           <InnerContent
             title="신랑"
-            name="현민혁"
-            bank="신한은행 110 277 642435"
+            name="이민혁"
+            bank="신한은행 110-252-361167"
           />
           <InnerContent
             title="아버지"
-            name="현지득"
-            bank="하나은행 159 911602 539"
+            name="이말화"
+            bank="국민은행 392001-04-122680"
           />
           <InnerContent
             title="어머니"
-            name="이미숙"
-            bank="국민은행 458302 01 894027 "
+            name="장양미"
+            bank="신한은행 110-063-657890"
           />
         </InnerWrap>
       </ModalInner>
