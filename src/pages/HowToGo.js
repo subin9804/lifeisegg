@@ -76,30 +76,15 @@ const MapImage = styled.img`
   border-top: 1px solid #ddd;
 `;
 
-export default function HowToGo({Subtitle, SubtitleKR}) {
+export default function HowToGo({Subtitle, SubtitleKR ,Copy}) {
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_CLOUD_NAME}&autoload=false`;
-    script.async = true;
-    document.head.appendChild(script);
-
-      script.onload = () => {
-        window.kakao.maps.load(() => {
-          const container = document.getElementById("map");
-          const options = {
-            center: new window.kakao.maps.LatLng(37.5665, 126.9780),
-            level: 3,
-          };
-          new window.kakao.maps.Map(container, options);
+  const copyLocation = async () => {
+      await navigator.clipboard
+        .writeText("부천시 원미구 길주로 105")
+        .then(() => {
+          alert("주소가 복사되었습니다.🥰");
         });
-      };
-    }, []);
-
-  const [center, setCenter] = useState({
-    lat: 37.5665, // 초기 위도 (서울 시청)
-    lng: 126.9780, // 초기 경도
-  });
+      }
 
   return (
     <Container>
@@ -121,6 +106,7 @@ export default function HowToGo({Subtitle, SubtitleKR}) {
       </IconRow>
       <KakaoAPI/>
   
+      <SubtitleKR>주소: 부천시 원미구 길주로 105 <Copy onClick={copyLocation} style={{height: "15px"}}/></SubtitleKR>
       <MapImage
         src="./img/map.jpg"
         alt="지도"

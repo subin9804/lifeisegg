@@ -3,6 +3,8 @@ import styled from "styled-components";
 import ModalBox from "../components/ModalBox";
 import ModalBoxBride from "../components/ModalBoxBride";
 import { ThemeProvider } from "styled-components";
+import ViewModal from "../components/ViewModal";
+import WriteModal from "../components/WriteModal";
 
 const theme = {
   color: {
@@ -16,15 +18,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 74px;
-  min-height: 980px;
 `;
 
 const Info = styled.div`
   width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 12px;
 `;
@@ -51,22 +50,87 @@ const Title = styled.div`
   gap: 4px;
 `;
 
-const BankClone = styled.div`
-  background: #fff;
-  padding: 8px 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+const GuestbookContainer = styled.div`
+  background: #fff0f5;
+  border: 2px solid #ff4d8d;
+  border-radius: 16px;
+  padding: 12px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+const MessageList = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
+const Message = styled.div`
+  background: white;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  border: 1px solid #ffd6e8;
+  word-break: break-word;
+`;
+
+const ButtonRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+`;
+
+const Button = styled.button`
+  //background: ${(props) => (props.primary ? "#ff4d8d" : "white")};
+  //color: ${(props) => (props.primary ? "white" : "#ff4d8d")};
+  border: 1px solid #ff4d8d;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
   cursor: pointer;
+
+  button:first-of-type {
+    background: "#ff4d8d";
+    color: "white";
+  }
+
+  button:nth-of-type(2) {
+    background: "white";
+    color: "#ff4d8d";
+  }
 `;
-const InfoImg = styled.img`
+
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContent = styled.div`
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
   width: 90%;
-  height: auto;
-  display: inline-block;
-  margin-bottom: 20px;
+  max-width: 400px;
+  max-height: 80%;
+  overflow-y: auto;
 `;
-const Information = ({ Subtitle, SubtitleKR, DateInfo }) => {
+
+const Information = ({ Subtitle, SubtitleKR}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalBrideOpen, setIsModalBrideOpen] = useState(false);
+  
+  const [isViewModalOpen, setViewModalOpen] = useState(false);
+  const [isWriteModalOpen, setWriteModalOpen] = useState(false);
+
+
 
   const OpenInfoGroom = () => {
     setIsModalOpen(true);
@@ -81,45 +145,64 @@ const Information = ({ Subtitle, SubtitleKR, DateInfo }) => {
     setIsModalBrideOpen(false);
   };
 
+  const [messages, setMessages] = useState([
+    { id: 1, user: "Alice", text: "안녕하세요! 👋" },
+    { id: 2, user: "Bob", text: "좋은 하루 되세요!" },
+    { id: 3, user: "Cathy", text: "핑크테마 귀엽다 💕" },
+  ]);
+
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <DateInfo>
-          <Subtitle>expressing celebration</Subtitle>
-          <SubtitleKR>축하의 마음 전하기</SubtitleKR>
-          <p>
+        <Subtitle>모시는 글</Subtitle>
+          <SubtitleKR style={{marginBottom: "20px"}}>
             저희 둘의 시작을 축하해 주시는
             <br />
             모든 분들에게 진심으로 감사드리며
             <br />
             전해주신 따뜻한 마음, <br />
             오래도록 간직하겠습니다.
-          </p>
-        </DateInfo>
+          </SubtitleKR>
         <Info>
-          <InfoInner>
+          <InfoInner onClick={OpenInfoGroom}>
             <Title>
-              <img src="./img/flower.png" alt="flower" />
-              <span>신랑측</span>
+              <img src="./img/MarkerHeart.png" alt="heart" style={{width:"20px"}}/>
+              <span>신랑측 계좌번호 보기</span>
             </Title>
-            <BankClone onClick={OpenInfoGroom}>계좌번호 보기</BankClone>
             {isModalOpen && <ModalBox onClose={handleCloseModal} />}
           </InfoInner>
-          <InfoInner>
+          <InfoInner onClick={OpenInfoBride}>
             <Title>
-              <img src="./img/flower.png" alt="flower" />
-              <span>신부측</span>
+              <img src="./img/MarkerHeart.png" alt="heart" style={{width:"20px"}}/>
+              <span>신부측 계좌번호 보기</span>
             </Title>
-            <BankClone onClick={OpenInfoBride}>계좌번호 보기</BankClone>
             {isModalBrideOpen && (
               <ModalBoxBride onClose={handleCloseBrideModal} />
             )}
           </InfoInner>
         </Info>
-        <InfoImg src="./img/wedding08.jpg" alt="InfoImage" />
-        <Subtitle style={{ fontSize: "24px" }}>THANK YOU !</Subtitle>
       </Container>
+
+      <GuestbookContainer>
+      <Title>방명록</Title>
+      <MessageList>
+        {messages.slice(0, 3).map((msg) => (
+          <Message key={msg.id}>
+            <b>{msg.user}</b>: {msg.text}
+          </Message>
+        ))}
+      </MessageList>
+      <ButtonRow>
+        <Button onClick={() => setViewModalOpen(true)}>더보기</Button>
+        <Button onClick={() => setWriteModalOpen(true)}>작성</Button>
+      </ButtonRow>
+
+      {isViewModalOpen && (<ViewModal ModalOverlay={ModalOverlay} ModalContent={ModalContent} Message={Message} messages={messages} setViewModalOpen={setViewModalOpen}/> )}
+      {isWriteModalOpen && (<WriteModal ModalOverlay={ModalOverlay} ModalContent={ModalContent} Message={Message} messages={messages} setMessages={setMessages} Button={Button} setWriteModalOpen={setWriteModalOpen}/> )}
+      </GuestbookContainer>
     </ThemeProvider>
+  
   );
 };
 

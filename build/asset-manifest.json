@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "./static/css/main.f8d7a4a3.css",
-    "main.js": "./static/js/main.072a3a8c.js",
+    "main.css": "./static/css/main.7127eda9.css",
+    "main.js": "./static/js/main.e3d75897.js",
     "static/media/SellBuyMusic.mp3": "./static/media/SellBuyMusic.fdd7e0cde2700d376921.mp3",
     "index.html": "./index.html",
-    "main.f8d7a4a3.css.map": "./static/css/main.f8d7a4a3.css.map",
-    "main.072a3a8c.js.map": "./static/js/main.072a3a8c.js.map"
+    "main.7127eda9.css.map": "./static/css/main.7127eda9.css.map",
+    "main.e3d75897.js.map": "./static/js/main.e3d75897.js.map"
   },
   "entrypoints": [
-    "static/css/main.f8d7a4a3.css",
-    "static/js/main.072a3a8c.js"
+    "static/css/main.7127eda9.css",
+    "static/js/main.e3d75897.js"
   ]
 }

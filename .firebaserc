@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "wedding-invitation"
-  }
+    "default": "wedding-invitation",
+    "initation": "wedding-invitation-33cf3"
+  },
+  "targets": {},
+  "etags": {}
 }

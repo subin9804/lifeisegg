@@ -63,7 +63,7 @@ const InnerTitle = styled.div`
 const ModalBoxBride = ({ onClose, theme }) => {
   return (
     <Container>
-      <ModalInner>
+      <ModalInner onClick={(e) => e.stopPropagation()}>
         <ClosedButton onClick={onClose}>
           <IoIosCloseCircle />
         </ClosedButton>

@@ -10,7 +10,7 @@ import styled, { css } from "styled-components";
 import BottomPage from "./pages/BottomPage";
 
 import { useState } from "react";
-import { MapPin, MessageSquare, Images, Upload } from "lucide-react";
+import { MapPin, MessageSquare, Images, Upload, Copy } from "lucide-react";
 
 const Container = styled.div`
   /*height: 100vh;*/
@@ -59,12 +59,11 @@ const Subtitle = styled.h2`
   letter-spacing: 2px;
   color: rgba(248, 164, 164, 0.6);
   margin-bottom: 10px;
-  text-align: left;
+  //text-align: left;
 `;
 const SubtitleKR = styled.h4`
   color: #535353ff;
   font-weight: 700;
-  margin-bottom: 20px;
 `;
 const DateInfo = styled.div`
   width: 90%;
@@ -88,7 +87,7 @@ export default function App() {
 
   const tabs = [
     { key: "map", label: "오시는길", icon: <MapPin size={20} /> },
-    { key: "message", label: "모시는글", icon: <MessageSquare size={20} /> },
+    { key: "message", label: "마음전하기", icon: <MessageSquare size={20} /> },
     { key: "gallery", label: "사진첩", icon: <Images size={20} /> },
     { key: "upload", label: "사진올리기", icon: <Upload size={20} /> },
   ];
@@ -114,10 +113,10 @@ export default function App() {
           <HowToGo
             Subtitle={Subtitle}
             SubtitleKR={SubtitleKR}
-            DateInfo={DateInfo}
+            Copy={Copy}
           />}
+        {activeTab === "message" && <Information Subtitle={Subtitle} SubtitleKR={SubtitleKR} />}
         {activeTab === "gallery" && <PhotoBook Subtitle={Subtitle} SubtitleKR={SubtitleKR}/>}
-        {activeTab === "message" && <p>마음전하기 댓글창💕</p>}
         {activeTab === "upload" && <UploadPhoto />}
       </TabContent>
     </Container>

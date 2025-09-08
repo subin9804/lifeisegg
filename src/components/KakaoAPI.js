@@ -1,11 +1,12 @@
 import React from "react";
-import { Map, MapMarker, InfoWindow } from "react-kakao-maps-sdk";
+import { Map, MapMarker, MapInfoWindow } from "react-kakao-maps-sdk";
+
 
 const KakaoAPI = () => {
   return (
     <Map
       center={{ lat: 37.50640157497443, lng: 126.75419588243194 }}
-      style={{ width: "95%", height: "400px" }}
+      style={{ width: "80%", height: "200px", border: "1px solid #888", marginBottom: "35px" }}
       level={3}
     >
       <MapMarker
@@ -19,16 +20,8 @@ const KakaoAPI = () => {
             height: 40,
           },
         }}
-        title='라비에벨 웨딩홀'// 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+        title="라비에벨 웨딩홀"// 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
       >
-        <InfoWindow
-            position={{ lat: 37.5665, lng: 126.9780 }}
-            removable={true}
-          >
-            <div style={{ padding: "8px", color: "#000" }}>
-              📍 여기가 서울시청입니다.
-            </div>
-          </InfoWindow>
       </MapMarker>
     </Map>
   );

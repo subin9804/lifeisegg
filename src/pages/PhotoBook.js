@@ -1,68 +1,76 @@
-import React, { useState } from "react";
-import { styled } from "styled-components";
-import { FaAngleRight } from "react-icons/fa";
-import GuestBook from "./GuestBook";
+import React, {useRef} from "react";
+import Slider from "react-slick";
+import styled from "styled-components";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { TextAlignment } from "@cloudinary/url-gen/qualifiers";
 
-const Container = styled.div`
-  width: 100%;
-  margin-top: 74px;
+const GalleryWrapper = styled.div`
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px;
+  text-align: center;
+
+  .slick-slide {
+    height: auto;
+  }
+
+//  .thumbnail-slider {
+//    margin-top: 0; // 위쪽 여백 없애기
+//  }
 `;
 
-const SlideWrap = styled.div`
-  display: grid;
-  grid-template-rows: repeat(5, 150px);
-  grid-template-columns: repeat(3, 1fr);
-  margin: 40px 10px 20px;
-`;
-
-const ImgSlide = styled.img`
+const SlideImage = styled.img`
   width: 100%;
-  height: 100%;
+  height: 400px;
   object-fit: cover;
-  object-position: center;
-  cursor: pointer;
-
-  &:first-child {
-    grid-column: 1 / 4;
-  }
-  &:nth-child(2) {
-    grid-column: 1 / 2;
-    grid-row: 2 / 4;
-  }
-  &:nth-child(3) {
-    grid-column: 2 / 4;
-    grid-row: 2 / 3;
-    object-position: center -15px;
-  }
-  &:nth-child(4) {
-    grid-column: 2 / 4;
-    grid-row: 3 / 4;
-    object-position: center -55px;
-  }
-  &:nth-child(5) {
-    grid-column: 1 / 3;
-    grid-row: 4 / 6;
-  }
-  &:nth-child(6) {
-    grid-column: 3 / 4;
-    grid-row: 4 / 6;
-  }
 `;
-const SlideAll = styled.p`
-  display: flex;
+
+const ThumbnailImage = styled.img`
+  width: 100%; // 부모 div 폭에 맞춤
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+`;
+
+const ThumbnailSlide = styled.div`
+  display: inline-block; // slick-slide 기본 문제 해결
+  padding: 0 4px; // 슬라이드 간격
+`;
+
+const ArrowButton = styled.div`
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 77, 141, 0.8);
+  border-radius: 50%;
+  display: flex !important;
+  justify-content: center;
   align-items: center;
-  justify-content: flex-end;
-  margin-right: 18px;
-  font-size: 14px;
   cursor: pointer;
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 45%;
   &:hover {
-    color: #f8a4a4;
+    background: #ff4d8d;
   }
 `;
 
-const PhotoBook = ({ Subtitle, SubtitleKR }) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+function NextArrow(props) {
+  const { onClick } = props;
+  return <ArrowButton style={{ right: "-20px" }} onClick={onClick}>›</ArrowButton>;
+}
+
+function PrevArrow(props) {
+  const { onClick } = props;
+  return <ArrowButton style={{ left: "-20px" }} onClick={onClick}>‹</ArrowButton>;
+}
+
+export default function GalleryCarousel({Subtitle}) {
+  const mainSlider = useRef(null);
+  const thumbSlider = useRef(null);
 
   const images = [
     "./img/wedding02.jpg",
@@ -73,42 +81,45 @@ const PhotoBook = ({ Subtitle, SubtitleKR }) => {
     "./img/wedding07.jpg",
   ];
 
-  const handleImageClick = (index) => {
-    setSelectedIndex(index);
-    setIsModalOpen(true);
+  const settingsMain = {
+    arrows: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    asNavFor: thumbSlider.current,
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleSlideAllClick = () => {
-    setSelectedIndex(0);
-    setIsModalOpen(true);
+  const settingsThumbs = {
+    slidesToShow: images.length < 5 ? images.length : 5,
+    swipeToSlide: true,
+    focusOnSelect: true,
+    centerMode: true,
+    asNavFor: mainSlider.current,
   };
 
   return (
-    <Container>
-      <Subtitle>photo gallery</Subtitle>
-      <SubtitleKR>사진첩</SubtitleKR>
-      <SlideWrap>
-        {images.map((src, index) => (
-          <ImgSlide
-            key={index}
-            src={src}
-            alt={`weddingImg${index}`}
-            onClick={() => handleImageClick(index)}
-          />
+    <GalleryWrapper>
+      <Subtitle>사진첩</Subtitle>
+      {/* 메인 큰 이미지 */}
+      <Slider {...settingsMain} ref={mainSlider} style={{marginBottom:"20px", boxShadow: "rgb(0 0 0 / 38%) 8px 9px 10px 0px"}}>
+        {images.map((src, idx) => (
+          <div key={idx}>
+            <SlideImage src={src} alt={`image-${idx}`} />
+          </div>
         ))}
-      </SlideWrap>
-      <SlideAll onClick={handleSlideAllClick}>
-        사진 전체보기 <FaAngleRight />
-      </SlideAll>
-      {isModalOpen && (
-        <GuestBook initialIndex={selectedIndex} onClose={handleCloseModal} />
-      )}
-    </Container>
-  );
-};
+      </Slider>
 
-export default PhotoBook;
+      {/* 하단 썸네일 */}
+      <Slider {...settingsThumbs} ref={thumbSlider}>
+        {images.map((src, idx) => (
+          <ThumbnailSlide key={idx}>
+            <ThumbnailImage src={src} alt={`thumb-${idx}`} />
+          </ThumbnailSlide>
+        ))}
+      </Slider>
+    </GalleryWrapper>
+  );
+}
