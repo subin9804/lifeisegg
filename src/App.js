@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import "./App.css";
 import Main from "./pages/Main";
 import Date from "./pages/Date";
@@ -45,11 +45,10 @@ const TabButton = styled.button`
   transition: color 0.2s;
   border: 0;
 
-  ${(props) =>
-    props.active &&
-    css`
-      color: #e91e63;
-    `}
+  &.active {
+    color: #e91e63;
+  }
+  
 `;
 const Subtitle = styled.h2`
   font-family: "Gowun Batang", serif;
@@ -102,7 +101,7 @@ export default function App() {
           <TabButton
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
-            active={activeTab === tab.key}
+            className={activeTab === tab.key ? "active" : ""}
           >
             {tab.icon}
             <span>{tab.label}</span>
