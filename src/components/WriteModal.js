@@ -22,13 +22,14 @@ const Textarea = styled.textarea`
   margin-bottom: 8px;
 `;
 
-export default function WriteModal({ModalOverlay, ModalContent, setWriteModalOpen, messages, setMessages, Button}) {
+export default function WriteModal({ModalOverlay, ModalContent, setWriteModalOpen, comments, setComments, Button, addComments, handleCommentsChange, newComments}) {
   const [nickname, setNickname] = useState("");
   const [newMessage, setNewMessage] = useState("");
     
   const handleSubmit = () => {
     if (!nickname.trim() || !newMessage.trim()) return;
-    setMessages([{ id: Date.now(), user: nickname, text: newMessage }, ...messages]);
+
+    //setComments([{ id: Date.now(), user: nickname, text: newMessage }, ...comments]);
     setNickname("");
     setNewMessage("");
     setWriteModalOpen(false);
@@ -39,16 +40,18 @@ export default function WriteModal({ModalOverlay, ModalContent, setWriteModalOpe
           <ModalContent onClick={(e) => e.stopPropagation()}>
             <h3>방명록 작성</h3>
             <Input
+              id="name"
               placeholder="성함"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
+              value={newComments.name || ''}
+              onChange={(e) => handleCommentsChange(e)}
             />
             <Textarea
+              id="comment"
               placeholder="메시지를 입력하세요"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
+              value={newComments.comment || ''}
+              onChange={(e) => handleCommentsChange(e)}
             />
-            <Button primary onClick={handleSubmit}>등록</Button>
+            <Button primary onClick={(e) => addComments(e)}>등록</Button>
           </ModalContent>
         </ModalOverlay>
     );

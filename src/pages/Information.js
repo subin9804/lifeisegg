@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ModalBox from "../components/ModalBox";
 import ModalBoxBride from "../components/ModalBoxBride";
 import { ThemeProvider } from "styled-components";
 import ViewModal from "../components/ViewModal";
 import WriteModal from "../components/WriteModal";
+
+import { db } from "../firebase.js"; // firebase config
+import { collection, addDoc, doc, getDocs } from "firebase/firestore";
+
+import axios from "axios";
 
 const theme = {
   color: {
@@ -123,6 +128,7 @@ const ModalContent = styled.div`
   overflow-y: auto;
 `;
 
+
 const Information = ({ Subtitle, SubtitleKR}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalBrideOpen, setIsModalBrideOpen] = useState(false);
@@ -131,6 +137,12 @@ const Information = ({ Subtitle, SubtitleKR}) => {
   const [isWriteModalOpen, setWriteModalOpen] = useState(false);
 
 
+  const [newComments, setNewComments] = useState([]);
+  const [comments, setComments] = useState([
+    { id: 1, user: "Alice", text: "안녕하세요! 👋" },
+    { id: 2, user: "Bob", text: "좋은 하루 되세요!" },
+    { id: 3, user: "Cathy", text: "핑크테마 귀엽다 💕" },
+  ]);
 
   const OpenInfoGroom = () => {
     setIsModalOpen(true);
@@ -145,12 +157,66 @@ const Information = ({ Subtitle, SubtitleKR}) => {
     setIsModalBrideOpen(false);
   };
 
-  const [messages, setMessages] = useState([
-    { id: 1, user: "Alice", text: "안녕하세요! 👋" },
-    { id: 2, user: "Bob", text: "좋은 하루 되세요!" },
-    { id: 3, user: "Cathy", text: "핑크테마 귀엽다 💕" },
-  ]);
+  const handleCommentsChange = (e) => {
+    if(e.target.id === "name") setNewComments({...newComments, name: e.target.value});
+    else if(e.target.id === "comment") setNewComments({...newComments, comment: e.target.value});
 
+    console.log(newComments.name)
+    console.log(newComments.comment)
+  };
+
+  const addComments = async () => {
+    let newCommentss = {
+      name: document.getElementById("name").value,
+      comment: document.getElementById("comment").value
+    }
+    try {
+      await addDoc(collection(db, "comments"), {
+      ...newCommentss,
+      createdAt: new Date(),
+    });
+
+      alert("저장 완료!");
+      setNewComments({});
+      
+      
+     } catch (err) {
+      console.error(err);
+      alert("오류가 발생하여 메세지가 저장되지 않았습니다.")
+    }finally {
+      //setUploading(false);
+    }
+  };
+
+    const getComments = async () => {
+      console.log("되긴되냐")
+      try {
+        //const docRef = doc();
+        const getComments = await getDocs(collection(db, "comments"));
+        if (getComments.length > 0) {
+          console.log("일로 안오나,,")
+          console.log("Document data:", getComments.data());
+        }
+        
+        getComments.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data() );
+          let commentData = {id: doc.id, name: doc.data().name, comment: doc.data().comment};
+          setComments((prevComments) => [commentData, ...prevComments]);
+        });
+      } catch (err) {
+        console.error(err);
+        alert("오류가 발생하여 메세지를 가져올 수 없습니다.")
+      }finally {
+        //setUploading(false);
+      }
+    };
+
+    //getComments();
+    useEffect(() => {
+      getComments();
+    }, []);
+    
 
   return (
     <ThemeProvider theme={theme}>
@@ -187,9 +253,9 @@ const Information = ({ Subtitle, SubtitleKR}) => {
       <GuestbookContainer>
       <Title>방명록</Title>
       <MessageList>
-        {messages.slice(0, 3).map((msg) => (
+        {comments.slice(0, 3).map((msg) => (
           <Message key={msg.id}>
-            <b>{msg.user}</b>: {msg.text}
+            <b key={msg.id}>{msg.name}</b>: {msg.comment}
           </Message>
         ))}
       </MessageList>
@@ -198,8 +264,17 @@ const Information = ({ Subtitle, SubtitleKR}) => {
         <Button onClick={() => setWriteModalOpen(true)}>작성</Button>
       </ButtonRow>
 
-      {isViewModalOpen && (<ViewModal ModalOverlay={ModalOverlay} ModalContent={ModalContent} Message={Message} messages={messages} setViewModalOpen={setViewModalOpen}/> )}
-      {isWriteModalOpen && (<WriteModal ModalOverlay={ModalOverlay} ModalContent={ModalContent} Message={Message} messages={messages} setMessages={setMessages} Button={Button} setWriteModalOpen={setWriteModalOpen}/> )}
+      {isViewModalOpen && (<ViewModal ModalOverlay={ModalOverlay} ModalContent={ModalContent} Message={Message} comments={comments} setViewModalOpen={setViewModalOpen}/> )}
+      {isWriteModalOpen && (<WriteModal ModalOverlay={ModalOverlay} 
+                                        ModalContent={ModalContent} 
+                                        Message={Message} 
+                                        comments={comments} 
+                                        setComments={setComments} 
+                                        Button={Button} 
+                                        setWriteModalOpen={setWriteModalOpen}
+                                        addComments={addComments}
+                                        handleCommentsChange={handleCommentsChange}
+                                        newComments={newComments}/> )}
       </GuestbookContainer>
     </ThemeProvider>
   
