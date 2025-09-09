@@ -69,23 +69,23 @@ const ModalBox = ({ onClose }) => {
         </ClosedButton>
         <InnerWrap>
           <InnerTitle>
-            <img src="./img/flower.png" alt="flower" />
+            <img src="./img/MarkerHeart.png" alt="heart" style={{width:"20px"}}/>
             <h3>신랑측</h3>
           </InnerTitle>
           <InnerContent
             title="신랑"
             name="이민혁"
-            bank="신한은행 110-252-361167"
+            bank="신한은행 000000-00-000000"
           />
           <InnerContent
             title="아버지"
             name="이말화"
-            bank="국민은행 392001-04-122680"
+            bank="국민은행 000000-00-000000"
           />
           <InnerContent
             title="어머니"
             name="장양미"
-            bank="신한은행 110-063-657890"
+            bank="신한은행 000000-00-000000"
           />
         </InnerWrap>
       </ModalInner>

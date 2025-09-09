@@ -5,9 +5,10 @@ import ModalBoxBride from "../components/ModalBoxBride";
 import { ThemeProvider } from "styled-components";
 import ViewModal from "../components/ViewModal";
 import WriteModal from "../components/WriteModal";
+import { EllipsisVertical } from "lucide-react";
 
 import { db } from "../firebase.js"; // firebase config
-import { collection, addDoc, doc, getDocs } from "firebase/firestore";
+import { collection, addDoc, doc, getDocs, orderBy, query, limit, where, updateDoc } from "firebase/firestore";
 
 import axios from "axios";
 
@@ -56,46 +57,50 @@ const Title = styled.div`
 `;
 
 const GuestbookContainer = styled.div`
-  background: #fff0f5;
-  border: 2px solid #ff4d8d;
-  border-radius: 16px;
+  background: #fffcd8ff;
+  //border: 2px dashed #d49434ff;
+  //border-radius: 16px;
   padding: 12px;
-  height: 200px;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 `;
 const MessageList = styled.div`
   flex: 1;
-  overflow-y: auto;
+  //overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 6px;
+  text-align: left;
 `;
 
 const Message = styled.div`
   background: white;
-  padding: 6px 8px;
-  border-radius: 8px;
+  padding: 8px 8px;
   font-size: 0.9rem;
-  border: 1px solid #ffd6e8;
+  border: 2px dashed #d49434ff;
   word-break: break-word;
+
+  text-align: left;
+  span { padding-right: 15px;}
 `;
 
 const ButtonRow = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 8px;
 `;
 
 const Button = styled.button`
-  //background: ${(props) => (props.primary ? "#ff4d8d" : "white")};
-  //color: ${(props) => (props.primary ? "white" : "#ff4d8d")};
-  border: 1px solid #ff4d8d;
+  background: #b1823cff;
+  color: white;
+  border: 1px solid #b1823cff;
+  //border-radius: 8px;
+  
   padding: 6px 12px;
-  border-radius: 8px;
   font-size: 0.9rem;
   cursor: pointer;
+
 
   button:first-of-type {
     background: "#ff4d8d";
@@ -119,12 +124,12 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalContent = styled.div`
-  background: white;
+  background: #fffcd8ff;
   border-radius: 16px;
   padding: 16px;
   width: 90%;
   max-width: 400px;
-  max-height: 80%;
+  height: 80%;
   overflow-y: auto;
 `;
 
@@ -136,13 +141,10 @@ const Information = ({ Subtitle, SubtitleKR}) => {
   const [isViewModalOpen, setViewModalOpen] = useState(false);
   const [isWriteModalOpen, setWriteModalOpen] = useState(false);
 
+  const [newComment, setNewComment] = useState({});
+  const [commentList, setCommentList] = useState([]);
 
-  const [newComments, setNewComments] = useState([]);
-  const [comments, setComments] = useState([
-    { id: 1, user: "Alice", text: "안녕하세요! 👋" },
-    { id: 2, user: "Bob", text: "좋은 하루 되세요!" },
-    { id: 3, user: "Cathy", text: "핑크테마 귀엽다 💕" },
-  ]);
+  const [renderCnt, setRenderCnt] = useState(0);
 
   const OpenInfoGroom = () => {
     setIsModalOpen(true);
@@ -158,65 +160,107 @@ const Information = ({ Subtitle, SubtitleKR}) => {
   };
 
   const handleCommentsChange = (e) => {
-    if(e.target.id === "name") setNewComments({...newComments, name: e.target.value});
-    else if(e.target.id === "comment") setNewComments({...newComments, comment: e.target.value});
-
-    console.log(newComments.name)
-    console.log(newComments.comment)
+    if(e.target.id === "name") {
+      if(e.target.value.length > 15) return; 
+      setNewComment({...newComment, name: e.target.value});
+    } else if (e.target.id === "comment") {
+      if(e.target.value.length > 130) return; 
+      setNewComment({...newComment, comment: e.target.value});
+    }else if(e.target.id === "password") {
+      if(e.target.value.length > 12) return; 
+      setNewComment({...newComment, password: e.target.value});
+    }
   };
 
   const addComments = async () => {
-    let newCommentss = {
+    let newObj = {
       name: document.getElementById("name").value,
-      comment: document.getElementById("comment").value
+      comment: document.getElementById("comment").value,
+      password: document.getElementById("password").value,
+      useYn: "Y"
     }
+
+    if(newObj.name == '') {
+      alert('성함을 입력해주세요'); 
+      return 0;
+    }
+    else if(newObj.comment == '') {
+      alert('내용을 입력해주세요'); 
+      return 0;
+    }
+    else if(newObj.password == '') {
+      alert('삭제시에 필요한 비밀번호를 입력해주세요'); 
+      return 0;
+    }
+
     try {
-      await addDoc(collection(db, "comments"), {
-      ...newCommentss,
-      createdAt: new Date(),
-    });
+      const docRef = await addDoc(collection(db, "comments"), {
+        ...newObj,
+        createdAt: new Date(),
+      });
 
       alert("저장 완료!");
-      setNewComments({});
-      
-      
+      setNewComment({...newComment, id: docRef.id});
+      setCommentList((prev) => [newComment, ...prev])
+      setNewComment(null);
+      //console.log(newComment)
      } catch (err) {
       console.error(err);
       alert("오류가 발생하여 메세지가 저장되지 않았습니다.")
     }finally {
-      //setUploading(false);
+      setWriteModalOpen(false)
     }
   };
 
-    const getComments = async () => {
-      console.log("되긴되냐")
-      try {
-        //const docRef = doc();
-        const getComments = await getDocs(collection(db, "comments"));
-        if (getComments.length > 0) {
-          console.log("일로 안오나,,")
-          console.log("Document data:", getComments.data());
-        }
-        
-        getComments.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data() );
-          let commentData = {id: doc.id, name: doc.data().name, comment: doc.data().comment};
-          setComments((prevComments) => [commentData, ...prevComments]);
-        });
-      } catch (err) {
-        console.error(err);
-        alert("오류가 발생하여 메세지를 가져올 수 없습니다.")
-      }finally {
-        //setUploading(false);
-      }
-    };
+  const getComments = async () => {
 
-    //getComments();
-    useEffect(() => {
-      getComments();
-    }, []);
+    try {
+      const getComments = await getDocs(query(collection(db, "comments"), orderBy("createdAt", "desc"), where("useYn", "==", "Y")));
+      
+      const commentData = [];
+      getComments.forEach((doc) => {
+      
+        //console.log(doc.id, " => ", doc.data() );
+        commentData.push({
+          id: doc.id, 
+          name: doc.data().name, 
+          comment: doc.data().comment, 
+          password: doc.data().password
+        });
+      });
+      setCommentList(commentData);
+
+    } catch (err) {
+      console.error(err);
+      alert("오류가 발생하여 메세지를 가져올 수 없습니다.")
+    //} finally {
+    }
+  };
+
+  useEffect(() => {
+    getComments();
+  }, [commentList]);
+  
+  const deleteComment = async (id) => {
     
+    try {
+      // comments 컬렉션에서 id에 해당하는 문서 가져오기
+      const docRef = doc(db, "comments", id);
+
+      // use_yn 값을 'N'으로 업데이트
+      await updateDoc(docRef, {
+        useYn: "N",
+      });
+
+      alert('삭제되었습니다.')
+
+      const newCommentList = commentList.filter((msg) => msg.id != id);
+      setCommentList(newCommentList);
+
+    } catch (err) {
+      console.error("업데이트 실패:", err);
+    }
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -251,30 +295,40 @@ const Information = ({ Subtitle, SubtitleKR}) => {
       </Container>
 
       <GuestbookContainer>
-      <Title>방명록</Title>
+      <h3 style={{marginBottom: "10px"}}>· 방명록 ·</h3>
       <MessageList>
-        {comments.slice(0, 3).map((msg) => (
+        {commentList.slice(0,4).map((msg) => (
           <Message key={msg.id}>
-            <b key={msg.id}>{msg.name}</b>: {msg.comment}
+            <b>{msg.name}</b>: {msg.comment}
           </Message>
         ))}
+         <div style={{paddingTop: "10px", textAlign: "center"}}><EllipsisVertical/></div>
       </MessageList>
       <ButtonRow>
-        <Button onClick={() => setViewModalOpen(true)}>더보기</Button>
+        <Button onClick={() => setViewModalOpen(true)}>전체보기</Button>
         <Button onClick={() => setWriteModalOpen(true)}>작성</Button>
       </ButtonRow>
 
-      {isViewModalOpen && (<ViewModal ModalOverlay={ModalOverlay} ModalContent={ModalContent} Message={Message} comments={comments} setViewModalOpen={setViewModalOpen}/> )}
+      {isViewModalOpen && (<ViewModal ModalOverlay={ModalOverlay} 
+                                      ModalContent={ModalContent} 
+                                      MessageList={MessageList}
+                                      Message={Message} 
+                                      commentList={commentList} 
+                                      setViewModalOpen={setViewModalOpen}
+                                      getComments={getComments}
+                                      setRenderCnt={setRenderCnt}
+                                      deleteComment={deleteComment}/> )}
+
       {isWriteModalOpen && (<WriteModal ModalOverlay={ModalOverlay} 
                                         ModalContent={ModalContent} 
                                         Message={Message} 
-                                        comments={comments} 
-                                        setComments={setComments} 
+                                        commentList={commentList} 
                                         Button={Button} 
                                         setWriteModalOpen={setWriteModalOpen}
                                         addComments={addComments}
                                         handleCommentsChange={handleCommentsChange}
-                                        newComments={newComments}/> )}
+                                        newComment={newComment}
+                                        setRenderCnt={setRenderCnt}/> )}
       </GuestbookContainer>
     </ThemeProvider>
   

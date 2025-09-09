@@ -1,9 +1,8 @@
-import React, {useRef} from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Slider from "react-slick";
 import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { TextAlignment } from "@cloudinary/url-gen/qualifiers";
 
 const GalleryWrapper = styled.div`
   max-width: 600px;
@@ -14,10 +13,6 @@ const GalleryWrapper = styled.div`
   .slick-slide {
     height: auto;
   }
-
-//  .thumbnail-slider {
-//    margin-top: 0; // 위쪽 여백 없애기
-//  }
 `;
 
 const SlideImage = styled.img`
@@ -27,7 +22,7 @@ const SlideImage = styled.img`
 `;
 
 const ThumbnailImage = styled.img`
-  width: 100%; // 부모 div 폭에 맞춤
+  width: 100%;
   height: 60px;
   object-fit: cover;
   border-radius: 8px;
@@ -35,8 +30,8 @@ const ThumbnailImage = styled.img`
 `;
 
 const ThumbnailSlide = styled.div`
-  display: inline-block; // slick-slide 기본 문제 해결
-  padding: 0 4px; // 슬라이드 간격
+  display: inline-block;
+  padding: 0 4px;
 `;
 
 const ArrowButton = styled.div`
@@ -58,27 +53,31 @@ const ArrowButton = styled.div`
   }
 `;
 
-function NextArrow(props) {
-  const { onClick } = props;
+function NextArrow({ onClick }) {
   return <ArrowButton style={{ right: "-20px" }} onClick={onClick}>›</ArrowButton>;
 }
 
-function PrevArrow(props) {
-  const { onClick } = props;
+function PrevArrow({ onClick }) {
   return <ArrowButton style={{ left: "-20px" }} onClick={onClick}>‹</ArrowButton>;
 }
 
-export default function GalleryCarousel({Subtitle}) {
+export default function GalleryCarousel({ Subtitle }) {
   const mainSlider = useRef(null);
   const thumbSlider = useRef(null);
 
+  const [nav1, setNav1] = useState(null);
+  const [nav2, setNav2] = useState(null);
+
+  useEffect(() => {
+    setNav1(mainSlider.current);
+    setNav2(thumbSlider.current);
+  }, []);
+
   const images = [
-    "./img/wedding02.jpg",
-    "./img/wedding03.jpg",
-    "./img/wedding04.jpg",
-    "./img/wedding05.jpg",
-    "./img/wedding06.jpg",
-    "./img/wedding07.jpg",
+    "./img/wedding01.jpg",
+    "./img/wedding02.JPG",
+    "./img/wedding03.JPG",
+    "./img/wedding04.JPG"
   ];
 
   const settingsMain = {
@@ -89,7 +88,7 @@ export default function GalleryCarousel({Subtitle}) {
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    asNavFor: thumbSlider.current,
+    asNavFor: nav2, // 여기 연결
   };
 
   const settingsThumbs = {
@@ -97,14 +96,15 @@ export default function GalleryCarousel({Subtitle}) {
     swipeToSlide: true,
     focusOnSelect: true,
     centerMode: true,
-    asNavFor: mainSlider.current,
+    asNavFor: nav1, // 여기 연결
   };
 
   return (
     <GalleryWrapper>
       <Subtitle>사진첩</Subtitle>
+
       {/* 메인 큰 이미지 */}
-      <Slider {...settingsMain} ref={mainSlider} style={{marginBottom:"20px", boxShadow: "rgb(0 0 0 / 38%) 8px 9px 10px 0px"}}>
+      <Slider {...settingsMain} ref={mainSlider} style={{ marginBottom: "20px", boxShadow: "rgb(0 0 0 / 38%) 8px 9px 10px 0px" }}>
         {images.map((src, idx) => (
           <div key={idx}>
             <SlideImage src={src} alt={`image-${idx}`} />

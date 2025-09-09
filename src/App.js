@@ -7,7 +7,7 @@ import PhotoBook from "./pages/PhotoBook";
 import Information from "./pages/Information";
 import UploadPhoto from "./pages/UploadPhoto";
 import styled, { css } from "styled-components";
-import BottomPage from "./pages/BottomPage";
+import Preparing from "./pages/Preparing";
 
 import { useState } from "react";
 import { MapPin, MessageSquare, Images, Upload, Copy } from "lucide-react";
@@ -117,7 +117,8 @@ export default function App() {
           />}
         {activeTab === "message" && <Information Subtitle={Subtitle} SubtitleKR={SubtitleKR} />}
         {activeTab === "gallery" && <PhotoBook Subtitle={Subtitle} SubtitleKR={SubtitleKR}/>}
-        {activeTab === "upload" && <UploadPhoto />}
+        {/*activeTab === "upload" && <UploadPhoto /> */}
+        {activeTab === "upload" && <Preparing />}
       </TabContent>
     </Container>
   );

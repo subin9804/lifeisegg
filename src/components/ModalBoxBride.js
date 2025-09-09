@@ -69,14 +69,14 @@ const ModalBoxBride = ({ onClose, theme }) => {
         </ClosedButton>
         <InnerWrap>
           <InnerTitle>
-            <img src="./img/flower.png" alt="flower" />
+            <img src="./img/MarkerHeart.png" alt="heart" style={{width:"20px"}}/>
             <h3>신부측</h3>
           </InnerTitle>
           <InnerContent
             theme={theme}
             title="신부"
             name="이수빈"
-            bank="국민은행 238502-04-234679"
+            bank="국민은행 000000-00-000000"
           />
           <InnerContent
             theme={theme}

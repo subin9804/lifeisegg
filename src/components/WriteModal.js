@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { IoIosCloseCircle } from "react-icons/io";
 
+
+const ClosedButton = styled.div`
+  position: relative;
+  left: 45%;
+  font-size: 28px;
+  color: #000;
+  cursor: pointer;
+  display:inline;
+`;
 
 const Input = styled.input`
   width: 100%;
@@ -22,33 +32,32 @@ const Textarea = styled.textarea`
   margin-bottom: 8px;
 `;
 
-export default function WriteModal({ModalOverlay, ModalContent, setWriteModalOpen, comments, setComments, Button, addComments, handleCommentsChange, newComments}) {
-  const [nickname, setNickname] = useState("");
-  const [newMessage, setNewMessage] = useState("");
-    
-  const handleSubmit = () => {
-    if (!nickname.trim() || !newMessage.trim()) return;
+export default function WriteModal({ModalOverlay, ModalContent, setWriteModalOpen, newComment, Button, addComments, handleCommentsChange}) {
 
-    //setComments([{ id: Date.now(), user: nickname, text: newMessage }, ...comments]);
-    setNickname("");
-    setNewMessage("");
-    setWriteModalOpen(false);
-  };
 
     return (
         <ModalOverlay onClick={() => setWriteModalOpen(false)}>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <h3>방명록 작성</h3>
+          <ModalContent style={{height:"auto"}} onClick={(e) => e.stopPropagation()}>
+          <ClosedButton onClick={() => setWriteModalOpen(false)}>
+              <IoIosCloseCircle />
+          </ClosedButton>
+            <h3 style={{marginBottom: "10px"}}>· 방명록 작성 ·</h3>
             <Input
               id="name"
               placeholder="성함"
-              value={newComments.name || ''}
+              value={newComment.name || ''}
               onChange={(e) => handleCommentsChange(e)}
             />
             <Textarea
               id="comment"
-              placeholder="메시지를 입력하세요"
-              value={newComments.comment || ''}
+              placeholder="메시지를 입력하세요.(최대 1000자)"
+              value={newComment.comment || ''}
+              onChange={(e) => handleCommentsChange(e)}
+            />
+            <Input
+              id="password"
+              placeholder="비밀번호(최대 12자)"
+              value={newComment.password || ''}
               onChange={(e) => handleCommentsChange(e)}
             />
             <Button primary onClick={(e) => addComments(e)}>등록</Button>
