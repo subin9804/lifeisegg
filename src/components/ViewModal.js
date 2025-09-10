@@ -84,6 +84,7 @@ export default function ViewModal({ModalOverlay, ModalContent, Message, commentL
             {isDeleteModalOpen && (
               <DeleteModal ModalOverlay={ModalOverlay}
                            Button={Button}
+                           setDeleteModalOpen={setDeleteModalOpen}
                            deleteComment={deleteComment}
                             commentId={commentId}
                             password={password}/>

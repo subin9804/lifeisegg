@@ -67,18 +67,19 @@ export default function GalleryCarousel({ Subtitle }) {
     setNav1(mainSlider.current);
     setNav2(thumbSlider.current);
   }, []);
-
+  const path = "https://res.cloudinary.com/dvjscrttz/image/upload/w_800,c_fill,q_auto,f_auto";
   const images = [
-    "./img/wedding01.jpg",
-    "./img/wedding02.jpg",
-    "./img/wedding03.jpg",
-    "./img/wedding04.jpg",
-    "./img/wedding05.jpg",
-    "./img/wedding06.jpg",
-    "./img/wedding07.jpg",
-    "./img/wedding08.jpg",
-    "./img/wedding09.jpg",
-    "./img/wedding10.jpg"
+    "/v1757506037/wedding01_mjzhyd.jpg",
+    "/v1757506035/wedding02_cjs2cn.jpg",
+    "/v1757506036/wedding03_bbmrqf.jpg",
+    "/v1757506038/wedding04_qtu4uh.jpg",
+    "/v1757506038/wedding05_oxq0ar.jpg",
+    "/v1757506039/wedding06_v5ivvp.jpg",
+    "/v1757506039/wedding07_krqpyg.jpg",
+    "/v1757506037/wedding08_pi8rla.jpg",
+    "/v1757506039/wedding09_qoyyxr.jpg",
+    "/v1757506040/wedding10_ylskhq.jpg",
+
   ];
 
   const settingsMain = {
@@ -108,7 +109,7 @@ export default function GalleryCarousel({ Subtitle }) {
       <Slider {...settingsMain} ref={mainSlider} style={{ marginBottom: "20px", boxShadow: "rgb(0 0 0 / 38%) 8px 9px 10px 0px" }}>
         {images.map((src, idx) => (
           <div key={idx}>
-            <SlideImage src={src} alt={`image-${idx}`} />
+            <SlideImage src={`${path}${src}`} alt={`image-${idx}`} />
           </div>
         ))}
       </Slider>
@@ -117,7 +118,7 @@ export default function GalleryCarousel({ Subtitle }) {
       <Slider {...settingsThumbs} ref={thumbSlider}>
         {images.map((src, idx) => (
           <ThumbnailSlide key={idx}>
-            <ThumbnailImage src={src} alt={`thumb-${idx}`} />
+            <ThumbnailImage src={`${path}${src}`} alt={`thumb-${idx}`} />
           </ThumbnailSlide>
         ))}
       </Slider>
