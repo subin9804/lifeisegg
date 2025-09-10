@@ -36,21 +36,16 @@ const ThumbnailSlide = styled.div`
 
 const ArrowButton = styled.div`
   z-index: 2;
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 77, 141, 0.8);
-  border-radius: 50%;
+  width: 80px;
+  height: 80px;
   display: flex !important;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: white;
-  font-size: 20px;
+  color: #ffffffc9;
+  font-size: 100px;
   position: absolute;
   top: 45%;
-  &:hover {
-    background: #ff4d8d;
-  }
 `;
 
 function NextArrow({ onClick }) {
@@ -75,9 +70,15 @@ export default function GalleryCarousel({ Subtitle }) {
 
   const images = [
     "./img/wedding01.jpg",
-    "./img/wedding02.JPG",
-    "./img/wedding03.JPG",
-    "./img/wedding04.JPG"
+    "./img/wedding02.jpg",
+    "./img/wedding03.jpg",
+    "./img/wedding04.jpg",
+    "./img/wedding05.jpg",
+    "./img/wedding06.jpg",
+    "./img/wedding07.jpg",
+    "./img/wedding08.jpg",
+    "./img/wedding09.jpg",
+    "./img/wedding10.jpg"
   ];
 
   const settingsMain = {

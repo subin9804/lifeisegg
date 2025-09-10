@@ -50,7 +50,7 @@ export default function WriteModal({ModalOverlay, ModalContent, setWriteModalOpe
             />
             <Textarea
               id="comment"
-              placeholder="메시지를 입력하세요.(최대 1000자)"
+              placeholder="메시지를 입력하세요.(최대 130자)"
               value={newComment.comment || ''}
               onChange={(e) => handleCommentsChange(e)}
             />

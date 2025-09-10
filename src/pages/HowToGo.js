@@ -89,24 +89,27 @@ export default function HowToGo({Subtitle, SubtitleKR ,Copy}) {
   return (
     <Container>
       <Subtitle>오시는 길</Subtitle>
+      <SubtitleKR>주소: 부천시 원미구 길주로 105 <Copy onClick={copyLocation} style={{height: "15px"}}/></SubtitleKR>
+      
+      <KakaoAPI/>
+      
       <SubtitleKR>아래 버튼을 클릭하시면 해당 맵으로 이동합니다.</SubtitleKR>
       <IconRow>
-        <IconWrapper href="https://naver.me/5XJyLFiZ">
+        <IconWrapper href="https://map.naver.com/p/directions/-/14110208.2799623,4509904.245778,%EB%9D%BC%EB%B9%84%EC%97%90%EB%B2%A8%EC%9B%A8%EB%94%A9,12945535,PLACE_POI/-/car?c=15.00,0,0,0,dh"
+                      target="_blank">
           <CircleIcon id="naver_map"></CircleIcon>
-          <IconLabel>네이버맵</IconLabel>
+          <IconLabel>네이버지도</IconLabel>
         </IconWrapper>
-        <IconWrapper href="https://place.map.kakao.com/98780839">
+        <IconWrapper href="https://place.map.kakao.com/98780839" target="_blank">
           <CircleIcon id="kakao_map"></CircleIcon>
           <IconLabel>카카오맵</IconLabel>
         </IconWrapper>
-        <IconWrapper href="https://tmap.life/6718f8fd">
+        <IconWrapper href="https://tmap.life/6718f8fd" target="_blank">
           <CircleIcon id="t_map"></CircleIcon>
           <IconLabel>티맵</IconLabel>
         </IconWrapper>
       </IconRow>
-      <KakaoAPI/>
-  
-      <SubtitleKR>주소: 부천시 원미구 길주로 105 <Copy onClick={copyLocation} style={{height: "15px"}}/></SubtitleKR>
+
       <MapImage
         src="./img/map.jpg"
         alt="지도"

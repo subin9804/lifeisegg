@@ -1,7 +1,8 @@
 import React, { useState, useRef } from "react";
-import { Trash2 } from "lucide-react";
+import { X } from "lucide-react";
 import styled from "styled-components";
 import { IoIosCloseCircle } from "react-icons/io";
+import DeleteModal from "../components/DeleteModal";
 
 const ClosedButton = styled.div`
   position: relative;
@@ -12,7 +13,7 @@ const ClosedButton = styled.div`
   display:inline;
 `;
 
-const DeleteModal = styled.div`
+const DeleteModalInner = styled.div`
   background: white;
   border-radius: 16px;
   padding: 16px;
@@ -31,44 +32,36 @@ const Input = styled.input`
   font-size: 0.9rem;
 `;
 
-
-const Message = styled.div`
-  background: white;
-  padding: 8px 8px;
-  font-size: 0.9rem;
-  border: 2px dashed #d49434ff;
-  word-break: break-word;
-
-  text-align: left;
-  span { padding-right: 15px;}
+const MessageList = styled.div`
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
-export default function ViewModal({ModalOverlay, ModalContent, MessageList, commentList, setViewModalOpen, deleteComment}) {
+const TopInfo = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+    line-height: 1.4;
+    font-size: inherit;
+`;
+
+export default function ViewModal({ModalOverlay, ModalContent, Message, commentList, setViewModalOpen, deleteComment, Button}) {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+
   const [commentId, setCommentId] = useState("");
   const [password, setPassword] = useState("");
-  const handleChange = (value) => {
-    //setPassword(value);
-  }
-  const inputRef = useRef(null)
 
   const deleteModalOpen = (id, password) => {
     setCommentId(id)
     setPassword(password);
     setDeleteModalOpen(true);
   }
-
-  const confirmPassword = ( id, password) => {
-    const pw = inputRef.current?.value;
-    //console.log(pw)
-    //console.log(password)
-    if(pw == password) {
-      deleteComment(id)
-    } else alert('비밀번호가 틀립니다.')
     
-    setDeleteModalOpen(false)
-  }
-  
+
     return (
         <ModalOverlay onClick={() => setViewModalOpen(false)}>
           <ModalContent style={{overFlowY:"auto"}} onClick={(e) => e.stopPropagation()}>
@@ -77,31 +70,23 @@ export default function ViewModal({ModalOverlay, ModalContent, MessageList, comm
           </ClosedButton>
             <h3 style={{marginBottom:"20px"}}>· 전체 방명록 ·</h3>
             <MessageList>
-            {commentList.map((msg) => (
-              <Message key={msg.id}>
-                <span><b>{msg.name}</b>: {msg.comment}</span>
-                <Trash2 style={{float:"right", color: "#999"}}
-                        onClick={() => deleteModalOpen(msg.id, msg.password)}/>
-              </Message>
-            ))}
+              {commentList.map((msg) => (
+                <Message key={msg.id}>
+                  <TopInfo>
+                    <div>{msg.name}</div>
+                    <X style={{color: "#aaa"}} onClick={(e) => deleteModalOpen(msg.id, msg.password)}/>
+                  </TopInfo>
+                
+                  {msg.comment}
+                </Message>
+              ))}
             </MessageList>
             {isDeleteModalOpen && (
-              <ModalOverlay onClick={() => setDeleteModalOpen(false)}>
-              <DeleteModal onClick={(e) => e.stopPropagation()}>
-                <ClosedButton onClick={() => setDeleteModalOpen(false)}>
-                    <IoIosCloseCircle />
-                </ClosedButton>
-                <p>비밀번호를 입력해주세요.</p>
-                <Input
-                  id="password"
-                  placeholder="비밀번호(숫자 6자리)"
-                  ref={inputRef}
-                  //value={newComments.name || ''}
-                  onChange={(e) => handleChange(e.target.value)}
-                />
-                <button onClick={(e) => confirmPassword(commentId, password)}>확인</button>
-              </DeleteModal>
-              </ModalOverlay>
+              <DeleteModal ModalOverlay={ModalOverlay}
+                           Button={Button}
+                           deleteComment={deleteComment}
+                            commentId={commentId}
+                            password={password}/>
             )}
           </ModalContent>
         </ModalOverlay>

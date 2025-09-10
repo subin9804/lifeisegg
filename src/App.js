@@ -57,13 +57,15 @@ const Subtitle = styled.h2`
 
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: rgba(248, 164, 164, 0.6);
-  margin-bottom: 10px;
+  color: #000;
+  margin: 10px 0;
   //text-align: left;
 `;
 const SubtitleKR = styled.h4`
-  color: #535353ff;
-  font-weight: 700;
+  line-height: 3.2rem;
+  letter-spacing: -0.2px;
+  color: #888;
+  //font-weight: 700;
 `;
 const DateInfo = styled.div`
   width: 90%;

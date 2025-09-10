@@ -5,7 +5,8 @@ import ModalBoxBride from "../components/ModalBoxBride";
 import { ThemeProvider } from "styled-components";
 import ViewModal from "../components/ViewModal";
 import WriteModal from "../components/WriteModal";
-import { EllipsisVertical } from "lucide-react";
+import DeleteModal from "../components/DeleteModal";
+import { EllipsisVertical, X } from "lucide-react";
 
 import { db } from "../firebase.js"; // firebase config
 import { collection, addDoc, doc, getDocs, orderBy, query, limit, where, updateDoc } from "firebase/firestore";
@@ -31,88 +32,99 @@ const Info = styled.div`
   margin-bottom: 20px;
   display: flex;
   align-items: center;
+  justify-content: space-around;
   gap: 12px;
 `;
 const InfoInner = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  grid-template-columns: 24px;
-  background: #ebf4f6;
-  height: 60px;
-  width: 86%;
-  font-family: "Mapo";
-  font-weight: 600;
-  color: #222;
-  font-size: 14px;
-  &:last-child {
-    background: rgba(248, 164, 164, 0.2);
-  }
+  border-radius: 14px;
+    padding: 5px 20px;
+    box-shadow: none;
+    //min-width: 215px;
+    border: 1px solid #eee;
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+    background: #fff;
+    cursor: pointer;
+    flex-grow: 1;
 `;
 
 const Title = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 4px;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    color: #000;
+    justify-content: space-evenly;
+    //position: relative;
+    //font-size: 1.2rem;
+    //padding-left: 22px;
 `;
 
 const GuestbookContainer = styled.div`
-  background: #fffcd8ff;
+  //background: #fffcd8ff;
   //border: 2px dashed #d49434ff;
   //border-radius: 16px;
-  padding: 12px;
+  padding: 30px 12px 50px;
   height: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 `;
 const MessageList = styled.div`
-  flex: 1;
-  //overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  text-align: left;
+    max-height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 const Message = styled.div`
-  background: white;
-  padding: 8px 8px;
-  font-size: 0.9rem;
-  border: 2px dashed #d49434ff;
-  word-break: break-word;
-
-  text-align: left;
+  box-shadow: 1px 1px 2px rgb(0 0 0 / 5%);
+    position: relative;
+    padding: 15px 17px;
+    text-align: left;
+    line-height: 1.4;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    //font-size: 1.3rem;
+    color: #544f4f;
+    width: 100%;
   span { padding-right: 15px;}
 `;
 
+const TopInfo = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+    line-height: 1.4;
+    font-size: inherit;
+`;
+
 const ButtonRow = styled.div`
-  display: flex;
-  justify-content: space-between;
+  display: block;
+  text-align: -webkit-right;
 `;
 
 const Button = styled.button`
-  background: #b1823cff;
-  color: white;
-  border: 1px solid #b1823cff;
-  //border-radius: 8px;
-  
-  padding: 6px 12px;
-  font-size: 0.9rem;
-  cursor: pointer;
-
-
-  button:first-of-type {
-    background: "#ff4d8d";
-    color: "white";
-  }
-
-  button:nth-of-type(2) {
-    background: "white";
-    color: "#ff4d8d";
-  }
+    border: 1px solid #eaeaea;
+    border-radius: 16px;
+    //font-size: 1.3rem;
+    background: #fff;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    box-sizing: border-box;
+    text-align: center;
+    height: 40px;
+    width: 100px;
+    font-weight: 500;
+    margin: 10px 0;
 `;
-
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -124,13 +136,13 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalContent = styled.div`
-  background: #fffcd8ff;
-  border-radius: 16px;
   padding: 16px;
   width: 90%;
   max-width: 400px;
   height: 80%;
   overflow-y: auto;
+  background-color: #f9f9f9;
+  z-index: 100;
 `;
 
 
@@ -144,7 +156,15 @@ const Information = ({ Subtitle, SubtitleKR}) => {
   const [newComment, setNewComment] = useState({});
   const [commentList, setCommentList] = useState([]);
 
-  const [renderCnt, setRenderCnt] = useState(0);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [commentId, setCommentId] = useState("");
+  const [password, setPassword] = useState("");
+
+  const deleteModalOpen = (id, password) => {
+    setCommentId(id)
+    setPassword(password);
+    setDeleteModalOpen(true);
+  }
 
   const OpenInfoGroom = () => {
     setIsModalOpen(true);
@@ -264,9 +284,11 @@ const Information = ({ Subtitle, SubtitleKR}) => {
 
   return (
     <ThemeProvider theme={theme}>
+      
       <Container>
+        
         <Subtitle>모시는 글</Subtitle>
-          <SubtitleKR style={{marginBottom: "20px"}}>
+          <SubtitleKR style={{marginBottom: "20px", lineHeight: "2.0rem"}}>
             저희 둘의 시작을 축하해 주시는
             <br />
             모든 분들에게 진심으로 감사드리며
@@ -278,14 +300,14 @@ const Information = ({ Subtitle, SubtitleKR}) => {
           <InfoInner onClick={OpenInfoGroom}>
             <Title>
               <img src="./img/MarkerHeart.png" alt="heart" style={{width:"20px"}}/>
-              <span>신랑측 계좌번호 보기</span>
+              <span>신랑측<br/>계좌번호 보기</span>
             </Title>
             {isModalOpen && <ModalBox onClose={handleCloseModal} />}
           </InfoInner>
           <InfoInner onClick={OpenInfoBride}>
             <Title>
               <img src="./img/MarkerHeart.png" alt="heart" style={{width:"20px"}}/>
-              <span>신부측 계좌번호 보기</span>
+              <span>신부측<br/>계좌번호 보기</span>
             </Title>
             {isModalBrideOpen && (
               <ModalBoxBride onClose={handleCloseBrideModal} />
@@ -299,24 +321,36 @@ const Information = ({ Subtitle, SubtitleKR}) => {
       <MessageList>
         {commentList.slice(0,4).map((msg) => (
           <Message key={msg.id}>
-            <b>{msg.name}</b>: {msg.comment}
+            <TopInfo>
+              <div>{msg.name}</div>
+              <X style={{color: "#aaa"}} onClick={(e) => deleteModalOpen(msg.id, msg.password)}/>
+            </TopInfo>
+          
+            {msg.comment}
           </Message>
         ))}
-         <div style={{paddingTop: "10px", textAlign: "center"}}><EllipsisVertical/></div>
+         {/* <div style={{paddingTop: "10px", textAlign: "center"}}><EllipsisVertical/></div> */}
+        <div style={{width: "100%", textAlign: "-webkit-center"}}><Button onClick={() => setViewModalOpen(true)}>전체보기</Button></div>
+        {isDeleteModalOpen && (
+              <DeleteModal ModalOverlay={ModalOverlay}
+                            Button={Button}
+                            setDeleteModalOpen={setDeleteModalOpen}
+                            deleteComment={deleteComment}
+                            commentId={commentId}
+                            password={password}/>
+        )}
       </MessageList>
       <ButtonRow>
-        <Button onClick={() => setViewModalOpen(true)}>전체보기</Button>
         <Button onClick={() => setWriteModalOpen(true)}>작성</Button>
       </ButtonRow>
 
       {isViewModalOpen && (<ViewModal ModalOverlay={ModalOverlay} 
                                       ModalContent={ModalContent} 
-                                      MessageList={MessageList}
+                                      Button={Button}
                                       Message={Message} 
                                       commentList={commentList} 
                                       setViewModalOpen={setViewModalOpen}
                                       getComments={getComments}
-                                      setRenderCnt={setRenderCnt}
                                       deleteComment={deleteComment}/> )}
 
       {isWriteModalOpen && (<WriteModal ModalOverlay={ModalOverlay} 
@@ -328,8 +362,10 @@ const Information = ({ Subtitle, SubtitleKR}) => {
                                         addComments={addComments}
                                         handleCommentsChange={handleCommentsChange}
                                         newComment={newComment}
-                                        setRenderCnt={setRenderCnt}/> )}
+                                      /> )}
       </GuestbookContainer>
+        
+        
     </ThemeProvider>
   
   );

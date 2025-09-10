@@ -12,7 +12,7 @@ const MainCon = styled.div`
 const Hero = styled.div`
   position: relative;
   height: 30vh;
-  background-image: url('./img/main_back.png');
+  background-image: url('./img/main003.jpg');
   background-size: cover;
   background-position: center;
 `;
@@ -20,15 +20,15 @@ const Hero = styled.div`
 const Gradient = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 1));
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.6));
 `;
 
 const HeroText = styled.div`
   text-align: center;
-  color: #0000008c;
-  font-size: 1.5rem;
+  color: #000000ff;
+  font-size: 1.3rem;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 13px;
 
   .heart {
     color:#fc5757ff;
@@ -50,14 +50,14 @@ const InfoCard = styled.div`
   white-space: nowrap;
 
   p:first-child {
-    font-size: 1.125rem;
+    font-size: 1rem;
     font-weight: 00;
-    color: #111;
+    color: #555;
   }
   p:last-child {
     font-size: 1rem;
     margin-top: 0.25rem;
-    color: #111;
+    color: #555;
   }
 `;
 
