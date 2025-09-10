@@ -25,7 +25,7 @@ const ModalInner = styled.div`
   max-width: 400px;
   height: auto;
   padding: 28px 16px;
-  background-color: #fff;
+  background-color: #f9f9f9;
   z-index: 100;
   font-family: "Mapo";
   font-size: 14px;
@@ -82,13 +82,13 @@ const ModalBoxBride = ({ onClose, theme }) => {
             theme={theme}
             title="아버지"
             name="이기홍"
-            bank="IBK기업은행 000000-00-000000"
+            bank="국민은행 000000-00-000000"
           />
           <InnerContent
             theme={theme}
             title="어머니"
             name="김송자"
-            bank="IBK기업은행 000000-00-000000"
+            bank="국민은행 000000-00-000000"
           />
         </InnerWrap>
       </ModalInner>

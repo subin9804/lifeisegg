@@ -200,15 +200,15 @@ const Information = ({ Subtitle, SubtitleKR}) => {
       useYn: "Y"
     }
 
-    if(newObj.name == '') {
+    if(newObj.name.trim() == '') {
       alert('성함을 입력해주세요'); 
       return 0;
     }
-    else if(newObj.comment == '') {
+    else if(newObj.comment.trim() == '') {
       alert('내용을 입력해주세요'); 
       return 0;
     }
-    else if(newObj.password == '') {
+    else if(newObj.password.trim() == '') {
       alert('삭제시에 필요한 비밀번호를 입력해주세요'); 
       return 0;
     }

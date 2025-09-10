@@ -60,7 +60,7 @@ export default function WriteModal({ModalOverlay, ModalContent, setWriteModalOpe
               value={newComment.password || ''}
               onChange={(e) => handleCommentsChange(e)}
             />
-            <Button primary onClick={(e) => addComments(e)}>등록</Button>
+            <div style={{width: "100%", textAlign: "-webkit-center"}}><Button onClick={(e) => addComments(e)}>등록</Button></div>
           </ModalContent>
         </ModalOverlay>
     );

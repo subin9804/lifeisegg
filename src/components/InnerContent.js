@@ -2,9 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 const InnerText = styled.div`
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 1px 1px 2px rgb(0 0 0 / 5%);
   display: flex;
   justify-content: space-around;
-  margin-top: 20px;
+  margin-top: 5px;
   font-weight: 600;
   color: #444;
 `;
