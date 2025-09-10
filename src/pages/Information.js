@@ -329,6 +329,11 @@ const Information = ({ Subtitle, SubtitleKR}) => {
             {msg.comment}
           </Message>
         ))}
+        {commentList.length === 0 && (
+          <Message style={{textAlign: "center"}}>
+            <span>첫 번째 방명록을 남겨주세요!😍</span>
+          </Message>
+        )}
          {/* <div style={{paddingTop: "10px", textAlign: "center"}}><EllipsisVertical/></div> */}
         <div style={{width: "100%", textAlign: "-webkit-center"}}><Button onClick={() => setViewModalOpen(true)}>전체보기</Button></div>
         {isDeleteModalOpen && (
