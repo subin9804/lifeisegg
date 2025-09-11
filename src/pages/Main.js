@@ -11,55 +11,71 @@ const MainCon = styled.div`
 
 const Hero = styled.div`
   position: relative;
-  height: 30vh;
-  background-image: url('./img/main003.jpg');
+  height: 35vh;
+  background-image: url('./img/main007.jpg');
   background-size: cover;
   background-position: center;
+  text-align: center;
 `;
 
 const Gradient = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.6));
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.1));
 `;
 
 const HeroText = styled.div`
   text-align: center;
   color: #000000ff;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: bold;
-  margin-bottom: 13px;
+  //margin-bottom: 7px;
+  display: flex;
+  line-height: 2.1rem;
+  justify-content:center;
+  width: 60%;
 
   .heart {
     color:#fc5757ff;
   }
 `;
 
+const Parents = styled.div`
+  line-height: 2rem;
+  text-align: left;
+  margin-right: 10px;
+`;
+
 const InfoWrapper = styled.div`
   align-items: center;
   position: absolute;
-  right: 50%;
-  transform: translateX(50%);
-  top: 6vh;
+ // right: 50%;
+//  transform: translateX(60%);
+  width: 100%;
+  top: 3vh;
+
 `;
 
 const InfoCard = styled.div`
-  text-align: center;
   width: 100%;
   font-weight: 900;
   white-space: nowrap;
+  text-align: -webkit-center;
 
-  p:first-child {
+  p {
     font-size: 1rem;
-    font-weight: 00;
-    color: #555;
+    font-weight: 700;
+    color: #777;
   }
-  p:last-child {
-    font-size: 1rem;
-    margin-top: 0.25rem;
-    color: #555;
+  h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 2rem;
+  font-weight: normal;
+  text-align: center;
+  text-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
   }
 `;
+
 
 const Main = ({ Subtitle }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -90,11 +106,19 @@ const Main = ({ Subtitle }) => {
 
       <InfoWrapper>
         <InfoCard>
-          <HeroText>이민혁 <span className="heart">❤</span> 이수빈</HeroText>
-        
-          <p>2025. 10. 26 (일) 오후 12시</p>
-        
-          <p>부천 상동 세이브존 9층<br/>라비에벨 오페라홀</p>
+          <h1 style={{color:"white", margin:"10px 0"}}>Wedding Invitation</h1>
+          <HeroText>
+            <Parents> 
+              <p>이말화 · 장양미의 아들</p>
+              
+              <p>이기홍 · 김송자의 딸</p>
+            </Parents>
+            <span>이민혁 <br/> 이수빈</span>
+            {/* <span className="heart">❤</span> */}
+            
+        </HeroText>
+        <h3 style={{color:"#333"}}>결혼합니다.</h3>
+
         </InfoCard>
       </InfoWrapper>
     </MainCon>

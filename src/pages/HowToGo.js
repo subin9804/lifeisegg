@@ -8,15 +8,6 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 70vh; /* 화면의 70% 높이 */
-  width: 100%;
-  max-width: 480px; /* 모바일 화면 가로폭 제한 (선택사항) */
-  margin: 0 auto;
-  background: #fff;
-`;
 
 const IconRow = styled.div`
   display: flex;
@@ -88,7 +79,11 @@ export default function HowToGo({Subtitle, SubtitleKR ,Copy}) {
 
   return (
     <Container>
-      <Subtitle>오시는 길</Subtitle>
+      <h2 style={{color:"black"}}>· 일시 ·</h2>
+      <SubtitleKR>2025년 10월 26일 (일) 오후 12시</SubtitleKR>
+      <h2 style={{color:"black", marginTop:"20px"}}>· 장소 ·</h2>
+      <SubtitleKR>부천 상동 세이브존 9층 <br/> 라비에벨 오페라홀</SubtitleKR>
+      <h2 style={{color:"black", marginTop:"20px"}}>· 오시는 길 ·</h2> 
       <SubtitleKR>주소: 부천시 원미구 길주로 105 <Copy onClick={copyLocation} style={{height: "15px"}}/></SubtitleKR>
       
       <KakaoAPI/>

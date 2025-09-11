@@ -62,10 +62,10 @@ const Subtitle = styled.h2`
   //text-align: left;
 `;
 const SubtitleKR = styled.h4`
-  line-height: 3.2rem;
+  line-height: 1.5rem;
   letter-spacing: -0.2px;
   color: #888;
-  //font-weight: 700;
+  margin: 10px 0;
 `;
 const DateInfo = styled.div`
   width: 90%;
@@ -88,7 +88,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState("map");
 
   const tabs = [
-    { key: "map", label: "오시는길", icon: <MapPin size={20} /> },
+    { key: "map", label: "일시 및 장소", icon: <MapPin size={20} /> },
     { key: "message", label: "마음전하기", icon: <MessageSquare size={20} /> },
     { key: "gallery", label: "사진첩", icon: <Images size={20} /> },
     { key: "upload", label: "사진올리기", icon: <Upload size={20} /> },

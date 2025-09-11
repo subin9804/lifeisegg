@@ -25,7 +25,7 @@ const ModalInner = styled.div`
   max-width: 400px;
   height: auto;
   padding: 28px 16px;
-  background-color: #fff;
+  background-color: #f9f9f9;
   z-index: 100;
   font-family: "Mapo";
   font-size: 14px;
@@ -75,17 +75,17 @@ const ModalBox = ({ onClose }) => {
           <InnerContent
             title="신랑"
             name="이민혁"
-            bank="신한은행 000-000-000000"
+            bank="신한은행 110-252-361167"
           />
           <InnerContent
             title="아버지"
             name="이말화"
-            bank="국민은행 000000-00-000000"
+            bank="국민은행 392001-04-122680"
           />
           <InnerContent
             title="어머니"
             name="장양미"
-            bank="신한은행 000-000-000000"
+            bank="신한은행 110-063-657890"
           />
         </InnerWrap>
       </ModalInner>

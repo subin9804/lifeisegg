@@ -76,19 +76,19 @@ const ModalBoxBride = ({ onClose, theme }) => {
             theme={theme}
             title="신부"
             name="이수빈"
-            bank="국민은행 000000-00-000000"
+            bank="국민은행 238502-04-234679"
           />
           <InnerContent
             theme={theme}
             title="아버지"
             name="이기홍"
-            bank="국민은행 000000-00-000000"
+            bank="국민은행 071-21-0480-443"
           />
           <InnerContent
             theme={theme}
             title="어머니"
             name="김송자"
-            bank="국민은행 000000-00-000000"
+            bank="국민은행 238501-04-092816"
           />
         </InnerWrap>
       </ModalInner>
