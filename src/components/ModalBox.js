@@ -15,6 +15,7 @@ const Container = styled.div`
   align-items: center;
   z-index: 999;
   overflow-y: hidden;
+  pointer-events: auto;
 `;
 
 const ModalInner = styled.div`
@@ -75,17 +76,17 @@ const ModalBox = ({ onClose }) => {
           <InnerContent
             title="신랑"
             name="이민혁"
-            bank="신한은행 000-000-000000"
+            bank={process.env.REACT_APP_ACCOUNT_GROOM}
           />
           <InnerContent
             title="아버지"
             name="이말화"
-            bank="국민은행 000000-00-000000"
+            bank={process.env.REACT_APP_ACCOUNT_GROOMF}
           />
           <InnerContent
             title="어머니"
             name="장양미"
-            bank="신한은행 000-000-000000"
+            bank={process.env.REACT_APP_ACCOUNT_GROOMM}
           />
         </InnerWrap>
       </ModalInner>

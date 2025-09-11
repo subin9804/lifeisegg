@@ -221,9 +221,9 @@ const Information = ({ Subtitle, SubtitleKR}) => {
 
       alert("저장 완료!");
       setNewComment({...newComment, id: docRef.id});
-      setCommentList((prev) => [newComment, ...prev])
-      setNewComment(null);
-      //console.log(newComment)
+      setNewComment({name: "", comment: "", password: ""});
+      getComments();
+      
      } catch (err) {
       console.error(err);
       alert("오류가 발생하여 메세지가 저장되지 않았습니다.")
@@ -253,29 +253,37 @@ const Information = ({ Subtitle, SubtitleKR}) => {
     } catch (err) {
       console.error(err);
       alert("오류가 발생하여 메세지를 가져올 수 없습니다.")
-    //} finally {
     }
   };
 
   useEffect(() => {
     getComments();
-  }, [commentList]);
+  }, []);
   
   const deleteComment = async (id) => {
-    
+    console.log("호출이 되나ㅠㅠ" + id)
     try {
       // comments 컬렉션에서 id에 해당하는 문서 가져오기
-      const docRef = doc(db, "comments", id);
+      const snapshot = await getDocs(query(
+                            collection(db, "comments"),
+                            where("__name__", "==", `${id}`),        // 문서 ID로 검색
+                            where("useYn", "==", "Y")          // useYn 조건
+                          ));
 
+      if (snapshot.empty) {
+        console.log("getComments")
+        getComments();
+        return 0;
+      }
+      console.log("updateDoc")
+      const docRef = doc(db, "comments", id);
       // use_yn 값을 'N'으로 업데이트
       await updateDoc(docRef, {
         useYn: "N",
       });
 
       alert('삭제되었습니다.')
-
-      const newCommentList = commentList.filter((msg) => msg.id != id);
-      setCommentList(newCommentList);
+      getComments();
 
     } catch (err) {
       console.error("업데이트 실패:", err);
