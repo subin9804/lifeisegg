@@ -45,7 +45,7 @@ const ArrowButton = styled.div`
   color: #ffffffc9;
   font-size: 100px;
   position: absolute;
-  top: 45%;
+  top: 40%;
 `;
 
 function NextArrow({ onClick }) {
@@ -67,7 +67,7 @@ export default function GalleryCarousel({ Subtitle }) {
     setNav1(mainSlider.current);
     setNav2(thumbSlider.current);
   }, []);
-  const path = "https://res.cloudinary.com/dvjscrttz/image/upload/w_800,c_fill,q_auto,f_auto";
+  const path = "https://res.cloudinary.com/dvjscrttz/image/upload/w_1200,c_fill,q_auto,f_auto";
   const images = [
     "/v1757506037/wedding01_mjzhyd.jpg",
     "/v1757506035/wedding02_cjs2cn.jpg",

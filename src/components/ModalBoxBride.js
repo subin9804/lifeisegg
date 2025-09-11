@@ -15,6 +15,7 @@ const Container = styled.div`
   align-items: center;
   z-index: 999;
   overflow-y: hidden;
+
 `;
 
 const ModalInner = styled.div`
@@ -29,6 +30,7 @@ const ModalInner = styled.div`
   z-index: 100;
   font-family: "Mapo";
   font-size: 14px;
+    pointer-events: auto;
 `;
 
 const ClosedButton = styled.div`
@@ -69,26 +71,26 @@ const ModalBoxBride = ({ onClose, theme }) => {
         </ClosedButton>
         <InnerWrap>
           <InnerTitle>
-            <img src="./img/MarkerHeart.png" alt="heart" style={{width:"20px"}}/>
+            <img src="./img/MarkerHeart.png" alt="heart"/>
             <h3>신부측</h3>
           </InnerTitle>
           <InnerContent
             theme={theme}
             title="신부"
             name="이수빈"
-            bank="국민은행 238502-04-234679"
+            bank={process.env.REACT_APP_ACCOUNT_BRIDE}
           />
           <InnerContent
             theme={theme}
             title="아버지"
             name="이기홍"
-            bank="국민은행 071-21-0480-443"
+            bank={process.env.REACT_APP_ACCOUNT_BRIDEF}
           />
           <InnerContent
             theme={theme}
             title="어머니"
             name="김송자"
-            bank="국민은행 238501-04-092816"
+            bank={process.env.REACT_APP_ACCOUNT_BRIDEM}
           />
         </InnerWrap>
       </ModalInner>

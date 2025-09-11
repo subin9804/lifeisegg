@@ -11,9 +11,10 @@ const InnerText = styled.div`
   margin-top: 5px;
   font-weight: 600;
   color: #444;
+  align-items: center;
 `;
 const Groom = styled.span`
-  display: flex;
+  //display: flex;
   gap: 8px;
   span {
     color: #777;
