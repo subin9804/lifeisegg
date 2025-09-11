@@ -69,7 +69,7 @@ const ModalBoxBride = ({ onClose, theme }) => {
         </ClosedButton>
         <InnerWrap>
           <InnerTitle>
-            <img src="./img/MarkerHeart.png" alt="heart" style={{width:"20px"}}/>
+            <img src="./img/MarkerHeart.png" alt="heart"/>
             <h3>신부측</h3>
           </InnerTitle>
           <InnerContent

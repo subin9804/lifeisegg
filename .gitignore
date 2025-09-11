@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/react,visualstudiocode,firebase,windows,git,node
-# Edit at https://www.toptal.com/developers/gitignore?templates=react,visualstudiocode,firebase,windows,git,node
+# Created by https://www.toptal.com/developers/gitignore/api/node,windows,react,visualstudiocode,git,firebase
+# Edit at https://www.toptal.com/developers/gitignore?templates=node,windows,react,visualstudiocode,git,firebase
 
 ### Firebase ###
 .idea
@@ -223,4 +223,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/react,visualstudiocode,firebase,windows,git,node
+# End of https://www.toptal.com/developers/gitignore/api/node,windows,react,visualstudiocode,git,firebase
