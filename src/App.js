@@ -120,7 +120,7 @@ export default function App() {
         {activeTab === "message" && <Information Subtitle={Subtitle} SubtitleKR={SubtitleKR} />}
         {activeTab === "gallery" && <PhotoBook Subtitle={Subtitle} SubtitleKR={SubtitleKR}/>}
         {/*activeTab === "upload" && <UploadPhoto /> */}
-        {activeTab === "upload" && <Preparing />}
+        {activeTab === "upload" && <Preparing setActiveTab={setActiveTab}/>}
       </TabContent>
     </Container>
   );
