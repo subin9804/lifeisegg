@@ -115,13 +115,12 @@ function UploadPhoto() {
 
   useEffect(() => {
     let id = localStorage.getItem("clientId");
-    if (!id) {
-      const uuid = crypto.randomUUID(); // 간단한 UUID 대체
-      id  = `user_${message.trim()}_${id}`;
-
-      localStorage.setItem("clientId", id);
+    if (id) {
+      setClientId(id);
+      let username = id.split('_')[1];
+      setMessage(username);
     }
-    setClientId(id);
+    
     //fetchImages();
   }, []);
 
@@ -148,7 +147,6 @@ function UploadPhoto() {
 
   // 미리보기 삭제
   const handleDelete = (index) => {
-    console.log(index);
     setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
@@ -187,6 +185,15 @@ function UploadPhoto() {
         createdAt: new Date(),
       });
 
+      // 3. clientId 생성 및 로컬스토리지에 저장
+      let id = localStorage.getItem("clientId");
+      if (!id) {
+        const uuid = crypto.randomUUID(); // 간단한 UUID 대체
+        id  = `user_${message.trim()}_${uuid}`;
+        localStorage.setItem("clientId", id);
+        setClientId(id);
+      }
+
       alert("저장 완료!");
       setMessage("");
       setFiles([]);
@@ -207,7 +214,7 @@ function UploadPhoto() {
     <Container>
       <Input
         type="text"
-        placeholder="짧은 메세지를 입력하세요"
+        placeholder="보내시는 분 성함을 입력하세요"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
