@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { FaVolumeHigh } from "react-icons/fa6";
 import { FaVolumeMute } from "react-icons/fa";
-import music from "../mp3/SellBuyMusic.mp3";
 import { styled } from "styled-components";
 
 const MainCon = styled.div`
@@ -78,25 +77,25 @@ const InfoCard = styled.div`
 
 
 const Main = ({ Subtitle }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(<FaVolumeMute />);
-  const audioRef = useRef(new Audio(music));
+  // const [isPlaying, setIsPlaying] = useState(false);
+  // const [volume, setVolume] = useState(<FaVolumeMute />);
+  // const audioRef = useRef(new Audio(music));
 
-  const playMusic = () => {
-    const audio = audioRef.current;
-    audio.volume = 0.2;
-    audio.loop = true;
-    if (audio.paused) {
-      audio.play();
-      setVolume(<FaVolumeHigh />);
-    } else {
-      audio.pause();
-      setVolume(<FaVolumeMute />);
-      audio.currentTime = 0;
-    }
+  // const playMusic = () => {
+  //   const audio = audioRef.current;
+  //   audio.volume = 0.2;
+  //   audio.loop = true;
+  //   if (audio.paused) {
+  //     audio.play();
+  //     setVolume(<FaVolumeHigh />);
+  //   } else {
+  //     audio.pause();
+  //     setVolume(<FaVolumeMute />);
+  //     audio.currentTime = 0;
+  //   }
 
-    setIsPlaying(!isPlaying);
-  };
+  //   setIsPlaying(!isPlaying);
+  // };
 
   return (
     <MainCon>

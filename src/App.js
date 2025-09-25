@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from 'react-router-dom';
 import "./App.css";
 import Main from "./pages/Main";
-import Date from "./pages/Date";
 import HowToGo from "./pages/HowToGo";
 import PhotoBook from "./pages/PhotoBook";
 import Information from "./pages/Information";
@@ -9,8 +9,9 @@ import UploadPhoto from "./pages/UploadPhoto";
 import styled, { css } from "styled-components";
 import Preparing from "./pages/Preparing";
 
-import { useState } from "react";
 import { MapPin, MessageSquare, Images, Upload, Copy } from "lucide-react";
+import { logEvent } from "firebase/analytics";
+import { analytics } from "./firebase";
 
 const Container = styled.div`
   /*height: 100vh;*/
@@ -47,6 +48,7 @@ const TabButton = styled.button`
 
   &.active {
     color: #e91e63;
+    background-color: #fff0f5;
   }
   
 `;
@@ -84,7 +86,18 @@ const TabContent = styled.div`
   font-size: 0.95rem;
 `;
 
+function usePageViews() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // 페이지뷰 이벤트 기록
+    logEvent(analytics, 'page_view', { page_path: location.pathname });
+  }, [location]);
+}
+
+
 export default function App() {
+  usePageViews();
   const [activeTab, setActiveTab] = useState("map");
 
   const tabs = [
@@ -93,6 +106,9 @@ export default function App() {
     { key: "gallery", label: "사진첩", icon: <Images size={20} /> },
     { key: "upload", label: "사진올리기", icon: <Upload size={20} /> },
   ];
+
+  const today = new Date();
+  const eventDate = new Date("2025-10-26T00:00:01"); // 이벤트 날짜와 시간 설정
 
   return (
     <Container>
@@ -120,7 +136,12 @@ export default function App() {
         {activeTab === "message" && <Information Subtitle={Subtitle} SubtitleKR={SubtitleKR} />}
         {activeTab === "gallery" && <PhotoBook Subtitle={Subtitle} SubtitleKR={SubtitleKR}/>}
         {/*activeTab === "upload" && <UploadPhoto /> */}
-        {activeTab === "upload" && <Preparing setActiveTab={setActiveTab}/>}
+        {activeTab === "upload" && (
+          today < eventDate ? 
+          <Preparing setActiveTab={setActiveTab}/> 
+          :
+          <UploadPhoto />
+        )}
       </TabContent>
     </Container>
   );
